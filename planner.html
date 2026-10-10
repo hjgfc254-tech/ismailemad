@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="var(--color-yellow)" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — تنظيم المذاكرة" />
+
+  <title>تنظيم المذاكرة — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       PAGE BASE
+       ========================================================= */
+    .pl-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      padding-bottom: calc(var(--safe-bottom) + 90px);
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .pl-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(var(--safe-top) + 16px) 16px 14px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pl-header-inner {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pl-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .pl-subtitle {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .pl-header-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: var(--color-yellow-light);
+      font-size: 22px;
+    }
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+    .pl-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 16px;
+    }
+
+    .pl-section {
+      margin-bottom: 18px;
+    }
+
+    /* =========================================================
+       WELCOME CARD
+       ========================================================= */
+    .pl-welcome {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--color-yellow);
+      color: var(--color-text);
+      box-shadow: 0 8px 22px rgba(255, 207, 51, 0.22);
+    }
+
+    .pl-welcome-greeting {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .pl-welcome-date {
+      margin: 0 0 14px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+
+    .pl-welcome-stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pl-stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.08);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       PRAYER SECTION
+       ========================================================= */
+    .prayer-section {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      margin-bottom: 18px;
+      transition: opacity 0.2s ease;
+    }
+
+    .prayer-section.prayer-section--hidden {
+      display: none;
+    }
+
+    .prayer__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .prayer__title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--color-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prayer__city {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--color-surface-soft);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .prayer__date-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .prayer__grid-compact {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .prayer-item-compact {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 10px 6px;
+      border-radius: 12px;
+      background: var(--color-surface-soft);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .prayer-item-compact--current {
+      background: rgba(28, 43, 132, 0.12);
+      border: 1.5px solid rgba(28, 43, 132, 0.35);
+    }
+
+    .prayer-item-compact--next {
+      background: rgba(28, 123, 196, 0.10);
+      border: 1.5px solid rgba(28, 123, 196, 0.30);
+    }
+
+    .prayer-item-compact__icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .prayer-item-compact__name {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .prayer-item-compact__time {
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--color-text);
+      direction: ltr;
+      line-height: 1.2;
+    }
+
+    .prayer-item-compact__period {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .prayer__next-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--color-green-light);
+      margin-bottom: 10px;
+    }
+
+    .prayer__next-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prayer__next-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-green-dark);
+    }
+
+    .prayer__next-name {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--color-green-dark);
+    }
+
+    .prayer__next-timer {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-green-dark);
+      direction: ltr;
+      letter-spacing: 0.5px;
+    }
+
+    .prayer__message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--color-yellow-light);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-yellow-dark);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .prayer__status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 10px;
+    }
+
+    .prayer__status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-text-muted);
+    }
+
+    .prayer__status-dot--online    { background: var(--color-primary); }
+    .prayer__status-dot--offline   { background: var(--color-red); }
+    .prayer__status-dot--loading   { background: var(--color-yellow); animation: pulse 1.5s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .prayer__hide-option {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--color-border);
+    }
+
+    .prayer__hide-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .prayer__hide-checkbox {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--color-green);
+      cursor: pointer;
+    }
+
+    .prayer__hide-hint {
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    /* =========================================================
+       WEEK NAVIGATION
+       ========================================================= */
+    .pl-week-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .pl-week-btn {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--color-text);
+      transition: background-color 0.15s ease;
+    }
+
+    .pl-week-btn:hover {
+      background: var(--color-surface-soft);
+    }
+
+    .pl-week-days {
+      flex: 1;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 4px 0;
+    }
+
+    .pl-week-days::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pl-day-chip {
+      flex-shrink: 0;
+      min-width: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 10px 6px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      position: relative;
+    }
+
+    .pl-day-chip:hover {
+      border-color: rgba(28, 43, 132, 0.35);
+    }
+
+    .pl-day-chip.is-active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .pl-day-chip.is-today::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      inset-inline-end: -4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-yellow);
+      border: 2px solid var(--color-surface);
+    }
+
+    .pl-day-chip__name {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.2;
+    }
+
+    .pl-day-chip.is-active .pl-day-chip__name {
+      color: #FFFFFF;
+    }
+
+    .pl-day-chip__date {
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      direction: ltr;
+      line-height: 1.2;
+    }
+
+    .pl-day-chip.is-active .pl-day-chip__date {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* =========================================================
+       PROGRESS + STREAK
+       ========================================================= */
+    .pl-progress-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .pl-progress-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .pl-progress-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .pl-progress-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .pl-progress-percent {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--color-primary);
+      direction: ltr;
+    }
+
+    .pl-progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: var(--color-surface-soft);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .pl-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--color-primary);
+      transition: width 0.25s ease;
+    }
+
+    .pl-progress-detail {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .pl-streak-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--color-orange);
+      color: #FFFFFF;
+      min-width: 90px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(255, 150, 0, 0.22);
+    }
+
+    .pl-streak-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .pl-streak-num {
+      font-family: "Inter", sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      direction: ltr;
+      line-height: 1;
+    }
+
+    .pl-streak-label {
+      font-size: 10px;
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    /* =========================================================
+       ADD TASK
+       ========================================================= */
+    .pl-add-task {
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .pl-add-row {
+      display: grid;
+      grid-template-columns: auto auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .pl-input,
+    .pl-select {
+      min-height: 44px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 1.5px solid var(--color-border);
+      background: var(--color-bg);
+      font-family: var(--font-arabic);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .pl-input:focus,
+    .pl-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(28, 43, 132, 0.12);
+    }
+
+    .pl-input[type="time"] {
+      font-family: "Inter", sans-serif;
+      direction: ltr;
+      padding: 0 8px;
+      min-width: 92px;
+    }
+
+    .pl-select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      min-width: 90px;
+    }
+
+    .pl-add-btn {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--color-primary);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: 0 3px 0 var(--color-primary-dark);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .pl-add-btn:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .pl-add-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 0 0 var(--color-primary-dark);
+    }
+
+    .pl-add-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .pl-quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pl-chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border);
+      font-family: var(--font-arabic);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pl-chip:hover {
+      background: var(--color-green-light);
+      color: var(--color-green-dark);
+      border-color: rgba(28, 43, 132, 0.3);
+    }
+
+    /* =========================================================
+       TASK LIST
+       ========================================================= */
+    .pl-task-list-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pl-task-list-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .pl-toggle-btn {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border);
+      font-family: var(--font-arabic);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      cursor: pointer;
+    }
+
+    .pl-task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pl-task {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      transition: opacity 0.2s ease;
+    }
+
+    .pl-task.is-completed {
+      opacity: 0.55;
+    }
+
+    .pl-task.is-completed .pl-task-text {
+      text-decoration: line-through;
+      color: var(--color-text-muted);
+    }
+
+    .pl-task-check {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      background: var(--color-surface);
+      cursor: pointer;
+      font-size: 14px;
+      color: transparent;
+      transition: all 0.15s ease;
+    }
+
+    .pl-task-check:hover {
+      border-color: var(--color-primary);
+    }
+
+    .pl-task.is-completed .pl-task-check {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .pl-task-time {
+      flex-shrink: 0;
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--color-text-muted);
+      direction: ltr;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: var(--color-surface-soft);
+    }
+
+    .pl-task-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .pl-task-actions {
+      flex-shrink: 0;
+      display: flex;
+      gap: 4px;
+    }
+
+    .pl-task-action {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      transition: background-color 0.15s ease;
+    }
+
+    .pl-task-action:hover {
+      background: var(--color-surface-soft);
+      color: var(--color-text);
+    }
+
+    .pl-task-action.is-delete:hover {
+      background: rgba(224, 58, 47, 0.1);
+      color: var(--color-red);
+    }
+
+    /* Empty State */
+    .pl-empty {
+      padding: 36px 20px;
+      text-align: center;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+    }
+
+    .pl-empty-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+
+    .pl-empty-title {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .pl-empty-text {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       QUOTE
+       ========================================================= */
+    .pl-quote {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+      text-align: center;
+    }
+
+    .pl-quote-text {
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .pl-quote-author {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    /* =========================================================
+       MODAL
+       ========================================================= */
+    .pl-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .pl-modal-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .pl-modal {
+      width: 100%;
+      max-width: 400px;
+      background: var(--color-surface);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .pl-modal-overlay.is-open .pl-modal {
+      transform: scale(1);
+    }
+
+    .pl-modal-title {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      text-align: center;
+    }
+
+    .pl-modal-input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--color-border);
+      background: var(--color-bg);
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 14px;
+    }
+
+    .pl-modal-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(28, 43, 132, 0.12);
+    }
+
+    .pl-modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .pl-modal-btn {
+      flex: 1;
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+    }
+
+    .pl-modal-btn-cancel {
+      background: var(--color-surface-soft);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .pl-modal-btn-save {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 3px 0 var(--color-primary-dark);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 700px) {
+      .pl-content {
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="pl-header">
+    <div class="pl-header-inner">
+      <div>
+        <h1 class="pl-title">تنظيم المذاكرة</h1>
+        <p class="pl-subtitle" id="plSubtitle">نظّم أسبوعك وابدأ الإنجاز</p>
+      </div>
+      <div class="pl-header-icon" aria-hidden="true"><span class="icon icon-calendar" aria-hidden="true"></span></div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN
+       ============================================================ -->
+  <main class="pl-content">
+
+    <!-- ==============================================
+         WELCOME CARD
+         ============================================== -->
+    <section class="pl-section">
+      <div class="pl-welcome">
+        <h2 class="pl-welcome-greeting" id="welcomeGreeting">مرحبًا بك <span class="icon icon-wave" aria-hidden="true"></span></h2>
+        <p class="pl-welcome-date" id="welcomeDate">—</p>
+        <div class="pl-welcome-stats">
+          <span class="pl-stat-pill">
+            <span aria-hidden="true"><span class="icon icon-clipboard" aria-hidden="true"></span></span>
+            <span class="num" id="weeklyTotal">0</span>
+            <span>مهمة</span>
+          </span>
+          <span class="pl-stat-pill">
+            <span aria-hidden="true"><span class="icon icon-check-circle" aria-hidden="true"></span></span>
+            <span class="num" id="weeklyDone">0</span>
+            <span>مكتملة</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         PRAYER TIMES (اختياري)
+         ============================================== -->
+    <section class="prayer-section" id="prayerSection" aria-label="مواقيت الصلاة">
+      <div class="prayer__header">
+        <h2 class="prayer__title">
+          <span aria-hidden="true"><span class="icon icon-mosque" aria-hidden="true"></span></span>
+          مواقيت الصلاة
+        </h2>
+        <span class="prayer__city" id="prayerCity">
+          <span aria-hidden="true"><span class="icon icon-location" aria-hidden="true"></span></span>
+          القاهرة
+        </span>
+      </div>
+
+      <div class="prayer__date-row">
+        <span class="prayer__hijri-date" id="prayerHijriDate">--</span>
+        <span class="prayer__gregorian-date" id="prayerGregorianDate">--</span>
+      </div>
+
+      <div class="prayer__grid-compact" id="prayerGrid"></div>
+
+      <div class="prayer__next-row" id="prayerNextRow">
+        <div class="prayer__next-info">
+          <span class="prayer__next-label">القادمة</span>
+          <span class="prayer__next-name" id="nextPrayerName">--</span>
+        </div>
+        <div class="prayer__next-timer" id="countdownTimer">--:--:--</div>
+      </div>
+
+      <div class="prayer__message">
+        <span aria-hidden="true"><span class="icon icon-dua-hands" aria-hidden="true"></span></span>
+        <span id="prayerMessageText">﴿إن الصلاة كانت على المؤمنين كتابًا موقوتًا﴾</span>
+      </div>
+
+      <div class="prayer__status" id="prayerStatus">
+        <span class="prayer__status-dot"></span>
+        <span class="prayer__status-text">جاري التحميل...</span>
+      </div>
+
+      <div class="prayer__hide-option">
+        <label class="prayer__hide-label">
+          <input type="checkbox" class="prayer__hide-checkbox" id="hidePrayerCheckbox" />
+          <span>إخفاء مواقيت الصلاة</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         WEEK NAVIGATION
+         ============================================== -->
+    <section class="pl-section">
+      <div class="pl-week-nav">
+        <button
+          type="button"
+          class="pl-week-btn"
+          id="prevWeekBtn"
+          aria-label="الأسبوع السابق"
+        >
+          <span class="icon icon-arrow-forward" aria-hidden="true"></span>
+        </button>
+        <div class="pl-week-days" id="daySelector"></div>
+        <button
+          type="button"
+          class="pl-week-btn"
+          id="nextWeekBtn"
+          aria-label="الأسبوع التالي"
+        >
+          <span class="icon icon-arrow-back" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         PROGRESS + STREAK
+         ============================================== -->
+    <section class="pl-section">
+      <div class="pl-progress-grid">
+
+        <div class="pl-progress-card">
+          <div class="pl-progress-head">
+            <h3 class="pl-progress-title" id="progressTitle">ابدأ العمل</h3>
+            <span class="pl-progress-percent" id="progressPercent">0%</span>
+          </div>
+          <div class="pl-progress-bar">
+            <div class="pl-progress-fill" id="progressFill"></div>
+          </div>
+          <div class="pl-progress-detail">
+            <span class="num" id="doneCount">0</span>
+            من
+            <span class="num" id="totalCount">0</span>
+            مهمة مكتملة
+          </div>
+        </div>
+
+        <div class="pl-streak-badge" title="أيام متتالية أكملت فيها كل مهامك">
+          <span class="pl-streak-icon" aria-hidden="true"><span class="icon icon-flame" aria-hidden="true"></span></span>
+          <span class="pl-streak-num" id="streakNum">0</span>
+          <span class="pl-streak-label">يوم متتالي</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         ADD TASK
+         ============================================== -->
+    <section class="pl-section">
+      <div class="pl-add-task">
+
+        <div class="pl-add-row">
+          <select class="pl-select" id="taskDaySelect" aria-label="اليوم"></select>
+          <input
+            type="time"
+            class="pl-input"
+            id="taskTime"
+            value="08:00"
+            aria-label="الوقت"
+          />
+          <input
+            type="text"
+            class="pl-input"
+            id="taskInput"
+            placeholder="اكتب مهمتك..."
+            maxlength="150"
+            aria-label="المهمة"
+          />
+          <button
+            type="button"
+            class="pl-add-btn"
+            id="addTaskBtn"
+            aria-label="إضافة مهمة"
+          >
+            +
+          </button>
+        </div>
+
+        <div class="pl-quick-chips">
+          <button type="button" class="pl-chip" data-quick="مذاكرة الدرس">مذاكرة</button>
+          <button type="button" class="pl-chip" data-quick="حل الواجب">واجب</button>
+          <button type="button" class="pl-chip" data-quick="مراجعة المحاضرة">مراجعة</button>
+          <button type="button" class="pl-chip" data-quick="تحضير الدرس القادم">تحضير</button>
+          <button type="button" class="pl-chip" data-quick="تمارين إضافية">تمارين</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         TASK LIST
+         ============================================== -->
+    <section class="pl-section">
+      <div class="pl-task-list-head">
+        <h3 class="pl-task-list-title" id="taskListTitle">مهام اليوم</h3>
+        <button
+          type="button"
+          class="pl-toggle-btn"
+          id="toggleCompletedBtn"
+        >
+          إخفاء المكتملة
+        </button>
+      </div>
+
+      <div class="pl-task-list" id="taskList">
+        <!-- سيتم ملؤها من JS -->
+      </div>
+    </section>
+
+    <!-- ==============================================
+         QUOTE
+         ============================================== -->
+    <section class="pl-section">
+      <div class="pl-quote">
+        <blockquote class="pl-quote-text" id="dailyQuote">"رحلة الألف ميل تبدأ بخطوة"</blockquote>
+        <cite class="pl-quote-author" id="quoteAuthor">— لاو تزو</cite>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       EDIT MODAL
+       ============================================================ -->
+  <div
+    class="pl-modal-overlay"
+    id="editModal"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+  >
+    <div class="pl-modal">
+      <h3 class="pl-modal-title">تعديل المهمة</h3>
+      <input
+        type="text"
+        class="pl-modal-input"
+        id="editTaskInput"
+        maxlength="150"
+        placeholder="عدّل المهمة..."
+      />
+      <div class="pl-modal-actions">
+        <button
+          type="button"
+          class="pl-modal-btn pl-modal-btn-cancel"
+          id="editCancelBtn"
+        >
+          إلغاء
+        </button>
+        <button
+          type="button"
+          class="pl-modal-btn pl-modal-btn-save"
+          id="editSaveBtn"
+        >
+          حفظ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Bottom Nav Slot
+       ============================================================ -->
+  <div id="bottomNavSlot"></div>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script type="module" src="js/prayer-times.js"></script>
+  <script type="module" src="js/planner.js"></script>
+
+</body>
+</html>

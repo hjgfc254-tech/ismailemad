@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — ملفي" />
+
+  <title>ملفي — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       PAGE BASE
+       ========================================================= */
+    .pf-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      padding-bottom: calc(var(--safe-bottom) + 90px);
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .pf-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(var(--safe-top) + 16px) 16px 14px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pf-header-inner {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pf-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .pf-subtitle {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .pf-header-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: var(--color-green-light);
+      font-size: 22px;
+    }
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+    .pf-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 16px;
+    }
+
+    .pf-section {
+      margin-bottom: 20px;
+    }
+
+    .pf-section-title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    /* =========================================================
+       PROFILE CARD
+       ========================================================= */
+    .pf-profile {
+      padding: 22px 18px;
+      border-radius: 20px;
+      background: var(--color-primary);
+      color: #FFFFFF;
+      text-align: center;
+      box-shadow: 0 10px 28px rgba(28, 43, 132, 0.22);
+      margin-bottom: 20px;
+    }
+
+    .pf-avatar {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      font-size: 34px;
+      font-weight: 900;
+      color: #FFFFFF;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      letter-spacing: 1px;
+    }
+
+    .pf-name {
+      margin: 0 0 6px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .pf-stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    /* =========================================================
+       INFO ROWS
+       ========================================================= */
+    .pf-info-card {
+      padding: 4px 16px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .pf-info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pf-info-row:last-child {
+      border-bottom: none;
+    }
+
+    .pf-info-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .pf-info-label-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .pf-info-value {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+      text-align: left;
+      word-break: break-word;
+    }
+
+    .pf-info-value.num {
+      font-family: "Inter", sans-serif;
+      direction: ltr;
+      letter-spacing: 0.5px;
+    }
+
+    /* =========================================================
+       STATS GRID
+       ========================================================= */
+    .pf-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .pf-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 14px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .pf-stat-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .pf-stat-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .pf-stat-icon--green  { background: var(--color-green-light); }
+    .pf-stat-icon--blue   { background: var(--color-blue-light); }
+    .pf-stat-icon--yellow { background: var(--color-yellow-light); }
+    .pf-stat-icon--purple { background: var(--color-purple-light); }
+
+    .pf-stat-value {
+      font-family: "Inter", sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--color-text);
+      direction: ltr;
+      line-height: 1.1;
+    }
+
+    .pf-stat-value.is-green  { color: var(--color-green); }
+    .pf-stat-value.is-blue   { color: var(--color-blue); }
+    .pf-stat-value.is-yellow { color: var(--color-yellow-dark); }
+    .pf-stat-value.is-purple { color: var(--color-purple); }
+
+    .pf-stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       PROGRESS (Average display)
+       ========================================================= */
+    .pf-avg-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .pf-avg-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pf-avg-label {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .pf-avg-value {
+      font-family: "Inter", sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+       color: var(--color-green);
+      direction: ltr700px;
+    }
+
+    .)pf-avg-bar {
+      height: 12px;
+      border-radius:  {
+999px;
+      background: var(--color-surface-soft     );
+      overflow: hidden;
+    }
+
+    .pf-avg-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      transition: width 0.4s ease;
+    }
+
+    /* =========================================================
+       EMPTY STATE (لو مفيش إحصائيات)
+       ========================================================= */
+    .pf-empty {
+      padding: 32px 20px;
+      text-align: center;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+    }
+
+    .pf-empty-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .pf-empty-title {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .pf-empty-text {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       LOGOUT BTN
+       ========================================================= */
+    .pf-logout-btn {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      color: var(--color-red);
+      border: 1.5px solid rgba(224, 58, 47, 0.3);
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .pf-logout-btn:hover {
+      background: rgba(224, 58, 47, 0.06);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 600px) {
+      .pf-stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: .pf-content {
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pf-avg-fill {
+        transition: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <main class="pf-page">
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="pf-header">
+      <div class="pf-header-inner">
+        <div>
+          <h1 class="pf-title">ملفي</h1>
+          <p class="pf-subtitle" id="pfSubtitle">سجلك الدراسي في المنصة</p>
+        </div>
+        <div class="pf-header-icon" aria-hidden="true"><span class="icon icon-user" aria-hidden="true"></span></div>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         CONTENT
+         ============================================================ -->
+    <div class="pf-content">
+
+      <!-- ==============================================
+           PROFILE CARD
+           ============================================== -->
+      <section class="pf-section">
+        <div class="pf-profile">
+          <div class="pf-avatar" id="pfAvatar" aria-hidden="true"><span class="icon icon-user" aria-hidden="true"></span></div>
+          <h2 class="pf-name" id="pfName">—</h2>
+          <span class="pf-stage-badge" id="pfStageBadge">
+            <span aria-hidden="true"><span class="icon icon-graduation-cap" aria-hidden="true"></span></span>
+            <span id="pfStageText">—</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           BASIC INFO
+           ============================================== -->
+      <section class="pf-section">
+        <h3 class="pf-section-title">المعلومات الأساسية</h3>
+
+        <div class="pf-info-card">
+
+          <div class="pf-info-row">
+            <span class="pf-info-label">
+              <span class="pf-info-label-icon" aria-hidden="true">🆔</span>
+              <span>الكود</span>
+            </span>
+            <span class="pf-info-value num" id="pfCode">—</span>
+          </div>
+
+          <div class="pf-info-row">
+            <span class="pf-info-label">
+              <span class="pf-info-label-icon" aria-hidden="true"><span class="icon icon-calendar" aria-hidden="true"></span></span>
+              <span>تاريخ الانضمام</span>
+            </span>
+            <span class="pf-info-value" id="pfJoinDate">—</span>
+          </div>
+
+          <div class="pf-info-row">
+            <span class="pf-info-label">
+              <span class="pf-info-label-icon" aria-hidden="true"><span class="icon icon-check-circle" aria-hidden="true"></span></span>
+              <span>حالة الحساب</span>
+            </span>
+            <span class="pf-info-value" id="pfAccountStatus">—</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==============================================
+           STATISTICS — Loading / Empty / Filled
+           ============================================== -->
+      <section class="pf-section">
+        <h3 class="pf-section-title">الإحصائيات الأكاديمية</h3>
+
+        <!-- Skeleton -->
+        <div class="pf-stats-grid" id="pfStatsSkeleton">
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--green" aria-hidden="true"><span class="icon icon-exam-paper" aria-hidden="true"></span></span>
+            </div>
+            <div class="pf-stat-value">—</div>
+            <div class="pf-stat-label">جارٍ التحميل...</div>
+          </div>
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--blue" aria-hidden="true"><span class="icon icon-target" aria-hidden="true"></span></span>
+            </div>
+            <div class="pf-stat-value">—</div>
+            <div class="pf-stat-label">جارٍ التحميل...</div>
+          </div>
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--yellow" aria-hidden="true">⏱️</span>
+            </div>
+            <div class="pf-stat-value">—</div>
+            <div class="pf-stat-label">جارٍ التحميل...</div>
+          </div>
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--purple" aria-hidden="true"><span class="icon icon-books" aria-hidden="true"></span></span>
+            </div>
+            <div class="pf-stat-value">—</div>
+            <div class="pf-stat-label">جارٍ التحميل...</div>
+          </div>
+        </div>
+
+        <!-- Actual stats (تُعبأ من JS) -->
+        <div class="pf-stats-grid" id="pfStatsGrid" style="display: none;">
+
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--green" aria-hidden="true"><span class="icon icon-exam-paper" aria-hidden="true"></span></span>
+            </div>
+            <div class="pf-stat-value is-green" id="pfStatAttempts">0</div>
+            <div class="pf-stat-label">اختبار</div>
+          </div>
+
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--blue" aria-hidden="true"><span class="icon icon-target" aria-hidden="true"></span></span>
+            </div>
+            <div class="pf-stat-value is-blue" id="pfStatCorrect">0</div>
+            <div class="pf-stat-label">إجابة صحيحة</div>
+          </div>
+
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--yellow" aria-hidden="true">⏱️</span>
+            </div>
+            <div class="pf-stat-value is-yellow" id="pfStatStudyHours">0</div>
+            <div class="pf-stat-label">ساعة مذاكرة</div>
+          </div>
+
+          <div class="pf-stat">
+            <div class="pf-stat-head">
+              <span class="pf-stat-icon pf-stat-icon--purple" aria-hidden="true"><span class="icon icon-books" aria-hidden="true"></span></span>
+            </div>
+            <div class="pf-stat-value is-purple" id="pfStatLessons">0</div>
+            <div class="pf-stat-label">درس مكتمل</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==============================================
+           AVERAGE
+           ============================================== -->
+      <section class="pf-section">
+        <h3 class="pf-section-title">متوسط الأداء</h3>
+
+        <div class="pf-avg-card">
+          <div class="pf-avg-head">
+            <span class="pf-avg-label">متوسط الدرجات</span>
+            <span class="pf-avg-value" id="pfAverageValue">0%</span>
+          </div>
+          <div class="pf-avg-bar">
+            <div class="pf-avg-fill" id="pfAverageFill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           LOGOUT
+           ============================================== -->
+      <section class="pf-section">
+        <button
+          type="button"
+          class="pf-logout-btn"
+          id="pfLogoutBtn"
+        >
+          <span aria-hidden="true"><span class="icon icon-logout" aria-hidden="true"></span></span>
+          <span>تسجيل الخروج</span>
+        </button>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       Bottom Nav Slot
+       ============================================================ -->
+  <div id="bottomNavSlot"></div>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/profile.js"></script>
+
+</body>
+</html>

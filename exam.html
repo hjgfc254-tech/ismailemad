@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — أداء الاختبار" />
+
+  <title>الاختبار — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       PAGE BASE
+       ========================================================= */
+    .exam-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .exam-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(var(--safe-top) + 12px) 16px 12px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .exam-header-inner {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .exam-back-btn {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-surface-soft);
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--color-text);
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+    }
+
+    .exam-back-btn:hover {
+      background: var(--color-border);
+    }
+
+    .exam-header-title {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .exam-timer {
+      flex-shrink: 0;
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--color-text-muted);
+      direction: ltr;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--color-surface-soft);
+    }
+
+    /* =========================================================
+       MAIN
+       ========================================================= */
+    .exam-main {
+      flex: 1;
+      max-width: 720px;
+      width: 100%;
+      margin-inline: auto;
+      padding: 20px 16px calc(var(--safe-bottom) + 32px);
+    }
+
+    /* =========================================================
+       INSTRUCTIONS STAGE
+       ========================================================= */
+    .exam-instructions {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .exam-instructions-icon {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background: var(--color-green-light);
+      font-size: 30px;
+      margin: 0 auto 16px;
+    }
+
+    .exam-instructions-title {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .exam-instructions-sub {
+      margin: 0 0 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .exam-info-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .exam-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--color-surface-soft);
+    }
+
+    .exam-info-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .exam-info-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .exam-info-value.num {
+      font-family: "Inter", sans-serif;
+      direction: ltr;
+    }
+
+    .exam-rules {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .exam-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--color-surface-soft);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+
+    .exam-rule-icon {
+      flex-shrink: 0;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .exam-start-btn {
+      width: 100%;
+      min-height: 54px;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFFFFF;
+      background: var(--color-primary);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .exam-start-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-primary-dark);
+    }
+
+    .exam-start-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================================================
+       QUESTIONS STAGE
+       ========================================================= */
+    .exam-questions {
+      display: none;
+    }
+
+    .exam-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .exam-progress-bar {
+      flex: 1;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--color-surface-soft);
+      overflow: hidden;
+    }
+
+    .exam-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--color-primary);
+      transition: width 0.25s ease;
+    }
+
+    .exam-progress-text {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--color-text);
+      direction: rtl;
+    }
+
+    .exam-progress-text .num {
+      font-family: "Inter", sans-serif;
+      direction: ltr;
+    }
+
+    .exam-question-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .exam-question-number {
+      display: inline-block;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--color-green-light);
+      color: var(--color-green-dark);
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .exam-question-text {
+      margin: 0 0 18px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .exam-choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .exam-choice {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      cursor: pointer;
+      min-height: 56px;
+      transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        transform 0.1s ease;
+    }
+
+    .exam-choice:hover {
+      border-color: rgba(28, 43, 132, 0.4);
+    }
+
+    .exam-choice:active {
+      transform: scale(0.99);
+    }
+
+    .exam-choice.is-selected {
+      border-color: var(--color-primary);
+      background: rgba(28, 43, 132, 0.06);
+    }
+
+    .exam-choice-radio {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      background: var(--color-surface);
+      position: relative;
+      transition: border-color 0.15s ease;
+    }
+
+    .exam-choice.is-selected .exam-choice-radio {
+      border-color: var(--color-primary);
+    }
+
+    .exam-choice.is-selected .exam-choice-radio::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+
+    .exam-choice-text {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    /* Navigation */
+    .exam-nav {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .exam-nav-btn {
+      flex: 1;
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.12s ease, background-color 0.15s ease;
+    }
+
+    .exam-nav-prev {
+      background: var(--color-surface-soft);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .exam-nav-prev:hover {
+      background: var(--color-border);
+    }
+
+    .exam-nav-prev:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .exam-nav-next {
+      background: var(--color-blue);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-blue-dark);
+    }
+
+    .exam-nav-next:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-blue-dark);
+    }
+
+    .exam-nav-next:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .exam-nav-submit {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    .exam-nav-submit:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-primary-dark);
+    }
+
+    .exam-nav-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    /* =========================================================
+       RESULT STAGE
+       ========================================================= */
+    .exam-result {
+      display: none;
+    }
+
+    .exam-result-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 28px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      text-align: center;
+    }
+
+    .exam-result-icon {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-green-light);
+      font-size: 40px;
+      margin: 0 auto 16px;
+    }
+
+    .exam-result-icon.pending {
+      background: var(--color-yellow-light);
+    }
+
+    .exam-result-title {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .exam-result-sub {
+      margin: 0 0 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .exam-result-score {
+      display: inline-block;
+      padding: 16px 28px;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+      margin-bottom: 22px;
+    }
+
+    .exam-result-score-value {
+      font-family: "Inter", sans-serif;
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--color-primary);
+      direction: ltr;
+      line-height: 1;
+    }
+
+    .exam-result-score-label {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .exam-result-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .exam-result-stat {
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--color-surface-soft);
+    }
+
+    .exam-result-stat-value {
+      font-family: "Inter", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      direction: ltr;
+      line-height: 1.2;
+    }
+
+    .exam-result-stat-value.correct {
+      color: var(--color-primary);
+    }
+
+    .exam-result-stat-value.wrong {
+      color: var(--color-red);
+    }
+
+    .exam-result-stat-label {
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .exam-result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* =========================================================
+       LOADING / ERROR
+       ========================================================= */
+    .exam-state {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .exam-state-icon {
+      font-size: 44px;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+
+    .exam-state-title {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .exam-state-text {
+      margin: 0 0 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .exam-state-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 24px;
+      border-radius: 12px;
+      background: var(--color-primary);
+      color: #FFFFFF;
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    /* =========================================================
+       CONFIRMATION DIALOG
+       ========================================================= */
+    .exam-confirm-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .exam-confirm-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .exam-confirm {
+      width: 100%;
+      max-width: 400px;
+      background: var(--color-surface);
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      transform: scale(0.94);
+      transition: transform 0.2s ease;
+    }
+
+    .exam-confirm-overlay.is-open .exam-confirm {
+      transform: scale(1);
+    }
+
+    .exam-confirm-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-yellow-light);
+      font-size: 28px;
+      margin: 0 auto 14px;
+    }
+
+    .exam-confirm-title {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--color-text);
+    }
+
+    .exam-confirm-text {
+      margin: 0 0 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .exam-confirm-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .exam-confirm-btn {
+      flex: 1;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.12s ease;
+    }
+
+    .exam-confirm-cancel {
+      background: var(--color-surface-soft);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .exam-confirm-cancel:hover {
+      background: var(--color-border);
+    }
+
+    .exam-confirm-submit {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    .exam-confirm-submit:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-primary-dark);
+    }
+
+    .exam-confirm-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 700px) {
+      .exam-main {
+        padding: 24px 20px calc(var(--safe-bottom) + 40px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .exam-choice,
+      .exam-nav-btn,
+      .exam-progress-fill,
+      .exam-confirm-overlay,
+      .exam-confirm,
+      .exam-start-btn {
+        transition: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <div class="exam-page">
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="exam-header">
+      <div class="exam-header-inner">
+        <a
+          href="exams.html"
+          class="exam-back-btn"
+          id="examBackBtn"
+          aria-label="رجوع"
+        >
+          <span class="icon icon-arrow-back" aria-hidden="true"></span>
+        </a>
+        <h1 class="exam-header-title" id="examTitle">الاختبار</h1>
+        <span class="exam-timer" id="examTimer" style="display: none;">--:--</span>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         MAIN
+         ============================================================ -->
+    <main class="exam-main">
+
+      <!-- ==============================================
+           LOADING STATE
+           ============================================== -->
+      <div class="exam-state" id="examLoading">
+        <div class="exam-state-icon" aria-hidden="true">⏳</div>
+        <h2 class="exam-state-title">جارٍ التحميل...</h2>
+        <p class="exam-state-text">من فضلك انتظر قليلًا.</p>
+      </div>
+
+      <!-- ==============================================
+           ERROR STATE
+           ============================================== -->
+      <div class="exam-state" id="examError" style="display: none;">
+        <div class="exam-state-icon" aria-hidden="true"><span class="icon icon-warning" aria-hidden="true"></span></div>
+        <h2 class="exam-state-title" id="examErrorTitle">تعذر تحميل الاختبار</h2>
+        <p class="exam-state-text" id="examErrorText">
+          تأكد من الرابط أو حاول مرة أخرى.
+        </p>
+        <a href="exams.html" class="exam-state-btn">العودة للاختبارات</a>
+      </div>
+
+      <!-- ==============================================
+           STAGE 1: INSTRUCTIONS
+           المرجع: الوثيقة الأصلية — بند 37
+           ============================================== -->
+      <section class="exam-instructions" id="examInstructions" style="display: none;">
+
+        <div class="exam-instructions-icon" aria-hidden="true"><span class="icon icon-exam-paper" aria-hidden="true"></span></div>
+        <h1 class="exam-instructions-title" id="instrTitle">اختبار</h1>
+        <p class="exam-instructions-sub">اقرأ التعليمات قبل البدء</p>
+
+        <!-- معلومات سريعة -->
+        <div class="exam-info-row">
+          <div class="exam-info-item">
+            <span class="exam-info-label">عدد الأسئلة</span>
+            <span class="exam-info-value num" id="instrQuestionsCount">—</span>
+          </div>
+          <div class="exam-info-item">
+            <span class="exam-info-label">المرحلة</span>
+            <span class="exam-info-value" id="instrStage">—</span>
+          </div>
+        </div>
+
+        <!-- قواعد الاختبار -->
+        <ul class="exam-rules">
+          <li class="exam-rule">
+            <span class="exam-rule-icon" aria-hidden="true"><span class="icon icon-lock" aria-hidden="true"></span></span>
+            <span>الاختبار محاولة واحدة فقط — لن تتمكن من إعادته.</span>
+          </li>
+          <li class="exam-rule">
+            <span class="exam-rule-icon" aria-hidden="true"><span class="icon icon-check-circle" aria-hidden="true"></span></span>
+            <span>تأكد من إجاباتك قبل الإرسال — لا يمكن التراجع.</span>
+          </li>
+          <li class="exam-rule">
+            <span class="exam-rule-icon" aria-hidden="true"><span class="icon icon-wifi" aria-hidden="true"></span></span>
+            <span>لا تغلق الصفحة أثناء إرسال الإجابات.</span>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          class="exam-start-btn"
+          id="examStartBtn"
+        >
+          ابدأ الاختبار
+        </button>
+
+      </section>
+
+      <!-- ==============================================
+           STAGE 2: QUESTIONS
+           المرجع: الوثيقة الأصلية — بنود 38، 39، 40
+           ============================================== -->
+      <section class="exam-questions" id="examQuestions">
+
+        <!-- Progress -->
+        <div class="exam-progress">
+          <div class="exam-progress-bar">
+            <div class="exam-progress-fill" id="examProgressFill"></div>
+          </div>
+          <div class="exam-progress-text">
+            <span class="num" id="examCurrentNum">1</span>
+            /
+            <span class="num" id="examTotalNum">—</span>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="exam-question-card">
+          <span class="exam-question-number" id="examQuestionBadge">
+            السؤال 1
+          </span>
+          <h2 class="exam-question-text" id="examQuestionText">—</h2>
+
+          <ul class="exam-choices" id="examChoices"></ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="exam-nav">
+          <button
+            type="button"
+            class="exam-nav-btn exam-nav-prev"
+            id="examPrevBtn"
+            disabled
+          >
+            <span class="icon icon-arrow-back" aria-hidden="true"></span> السابق
+          </button>
+          <button
+            type="button"
+            class="exam-nav-btn exam-nav-next"
+            id="examNextBtn"
+          >
+            التالي <span class="icon icon-arrow-forward" aria-hidden="true"></span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ==============================================
+           STAGE 3: RESULT
+           المرجع: الوثيقة الأصلية — بنود 44، 45
+           ============================================== -->
+      <section class="exam-result" id="examResult">
+
+        <div class="exam-result-card">
+
+          <div class="exam-result-icon" id="resultIcon" aria-hidden="true"><span class="icon icon-celebrate" aria-hidden="true"></span></div>
+
+          <h1 class="exam-result-title" id="resultTitle">تم استلام إجاباتك</h1>
+          <p class="exam-result-sub" id="resultSub">
+            شكرًا لك. سيتم عرض النتيجة حسب سياسة المعلم.
+          </p>
+
+          <div class="exam-result-score" id="resultScore" style="display: none;">
+            <div class="exam-result-score-value" id="resultScoreValue">0</div>
+            <p class="exam-result-score-label" id="resultScoreLabel">درجتك</p>
+          </div>
+
+          <div class="exam-result-stats" id="resultStats" style="display: none;">
+            <div class="exam-result-stat">
+              <div class="exam-result-stat-value correct" id="resultCorrect">0</div>
+              <div class="exam-result-stat-label">إجابات صحيحة</div>
+            </div>
+            <div class="exam-result-stat">
+              <div class="exam-result-stat-value wrong" id="resultWrong">0</div>
+              <div class="exam-result-stat-label">إجابات خاطئة</div>
+            </div>
+          </div>
+
+          <div class="exam-result-actions">
+            <a href="exams.html" class="exam-state-btn">
+              العودة للاختبارات
+            </a>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ============================================================
+       CONFIRMATION DIALOG
+       المرجع: الوثيقة الأصلية — بند 40
+       ============================================================ -->
+  <div
+    class="exam-confirm-overlay"
+    id="examConfirmOverlay"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="confirmTitle"
+  >
+    <div class="exam-confirm">
+
+      <div class="exam-confirm-icon" aria-hidden="true"><span class="icon icon-warning" aria-hidden="true"></span></div>
+
+      <h2 class="exam-confirm-title" id="confirmTitle">
+        تأكيد الإرسال
+      </h2>
+
+      <p class="exam-confirm-text" id="confirmText">
+        هل أنت متأكد من إرسال الاختبار؟<br />
+        بعد الإرسال لن تتمكن من المحاولة مرة أخرى.
+      </p>
+
+      <div class="exam-confirm-actions">
+        <button
+          type="button"
+          class="exam-confirm-btn exam-confirm-cancel"
+          id="confirmCancelBtn"
+        >
+          رجوع
+        </button>
+        <button
+          type="button"
+          class="exam-confirm-btn exam-confirm-submit"
+          id="confirmSubmitBtn"
+        >
+          تأكيد الإرسال
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/exam.js"></script>
+
+</body>
+</html>

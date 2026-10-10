@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية" />
+
+  <title>الرئيسية — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       HOME PAGE
+       ========================================================= */
+    .home-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      padding-bottom: calc(var(--safe-bottom) + 90px);
+    }
+
+    /* =========================================================
+       WELCOME HEADER
+       ========================================================= */
+    .home-welcome {
+      position: relative;
+      padding: calc(var(--safe-top) + var(--space-24)) var(--space-16) var(--space-20);
+      background: var(--color-bg);
+    }
+
+    .home-welcome-inner {
+      max-width: 720px;
+      margin-inline: auto;
+    }
+
+    .home-welcome-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-12);
+    }
+
+    .home-greeting {
+      margin: 0;
+      font-size: clamp(22px, 5.2vw, 28px);
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .home-greeting-name {
+      color: var(--color-green);
+    }
+
+    /* تاريخ اليوم — سياق هادئ، مش تنبيه ولا badge */
+    .home-welcome-date {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    /* سطر السياق الديناميكي تحت الترحيب — حالة الطالب النهارده بجملة واحدة قصيرة */
+    .home-welcome-context {
+      margin: 6px 0 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* المرحلة الدراسية — سطر هوية هادئ تحت الاسم، بدون حاوية/حدود */
+    .home-welcome-stage {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: var(--space-8) 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .home-welcome-stage .icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* =========================================================
+       CONTENT SECTIONS
+       ========================================================= */
+    .home-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 0 var(--space-16) var(--space-24);
+    }
+
+    .home-section {
+      margin-bottom: var(--space-24);
+    }
+
+    .home-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: var(--space-12);
+    }
+
+    .home-subsection {
+      margin-bottom: var(--space-16);
+    }
+
+    .home-subsection:last-child {
+      margin-bottom: 0;
+    }
+
+    .home-subsection-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: var(--space-8);
+    }
+
+    .home-subsection-title {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--color-text-muted);
+    }
+
+    .home-section-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .home-section-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-blue);
+      text-decoration: none;
+    }
+
+    .home-section-link:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       HERO ACTION (أهم شيء جديد)
+       ========================================================= */
+    /* بطاقة "الأهم الآن" — بدل التدرج اللوني الصريح، سطح داكن هادئ
+       + خط ذهبي علوي رفيع كإبراز وحيد (لون واحد "بطل" بدل تلوين الكل). */
+    .hero-action {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 18px;
+      border-radius: var(--radius-lg);
+      background: var(--color-dark-section);
+      color: #FFFFFF;
+      text-decoration: none;
+      box-shadow: var(--shadow-lifted);
+      overflow: hidden;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .hero-action::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--color-yellow);
+    }
+
+    .hero-action:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-modal);
+    }
+
+    .hero-action:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .hero-action-icon {
+      flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-green);
+    }
+
+    .hero-action-icon .icon { width: 24px; height: 24px; }
+
+    .hero-action-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-action-label {
+      margin: 0 0 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-green);
+    }
+
+    .hero-action-title {
+      margin: 0 0 2px;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #FFFFFF;
+    }
+
+    .hero-action-text {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+
+    /* CTA + سهم — يوضح فعل محدد ("ابدأ") بدل سهم وحيد بلا معنى */
+    .hero-action-end {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      opacity: 0.85;
+    }
+
+    .hero-action-cta {
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .hero-action-end .icon { width: 16px; height: 16px; }
+
+    /* الأيقونة والخط العلوي بيتلونوا حسب نوع "الأهم الآن"، بنفس معنى الألوان
+       في tokens.css (أخضر = إجراء أساسي، أزرق = معلومة أكاديمية، ذهبي = تنبيه مهم) */
+    .hero-action.hero-green::before  { background: var(--color-green); }
+    .hero-action.hero-green .hero-action-icon,
+    .hero-action.hero-green .hero-action-label { color: var(--color-green); }
+
+    .hero-action.hero-blue::before   { background: var(--color-blue); }
+    .hero-action.hero-blue .hero-action-icon,
+    .hero-action.hero-blue .hero-action-label { color: var(--color-blue); }
+
+    .hero-action.hero-purple::before { background: var(--color-purple); }
+    .hero-action.hero-purple .hero-action-icon,
+    .hero-action.hero-purple .hero-action-label { color: var(--color-purple); }
+
+    .hero-action.hero-gold::before   { background: var(--color-yellow); }
+    .hero-action.hero-gold .hero-action-icon,
+    .hero-action.hero-gold .hero-action-label { color: var(--color-yellow); }
+
+    /* =========================================================
+       PROGRESS HIGHLIGHT (متوسط الأداء)
+       ========================================================= */
+    .home-progress-highlight {
+      padding: var(--space-16);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      margin-bottom: 10px;
+    }
+
+    .home-progress-highlight-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-12);
+      margin-bottom: var(--space-8);
+    }
+
+    .home-progress-highlight-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .home-progress-highlight-value {
+      font-family: "Inter", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--color-green);
+      direction: ltr;
+    }
+
+    .home-progress-bar {
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: var(--color-surface-soft);
+      overflow: hidden;
+    }
+
+    .home-progress-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: var(--color-green);
+      transition: width 0.4s ease;
+    }
+
+    /* =========================================================
+       ACTIVITY STATS
+       ========================================================= */
+    .home-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .home-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 12px;
+      border-radius: 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    .home-stat-value {
+      font-family: "Inter", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--color-text);
+      direction: ltr;
+      line-height: 1.2;
+    }
+
+    .home-stat-value.is-green  { color: var(--color-green); }
+    .home-stat-value.is-blue   { color: var(--color-blue); }
+    .home-stat-value.is-yellow { color: var(--color-yellow-dark); }
+
+    .home-stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       TOOLS (أدواتك) — لوحة واحدة مقسّمة بخطوط رفيعة
+       بدل ست بطاقات منفصلة (كل واحدة لها خلفية+حدود+ظل خاص بها)
+       ========================================================= */
+    .home-tools-panel {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .home-tools-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: var(--space-16) var(--space-12);
+      min-height: var(--touch-min);
+      text-decoration: none;
+      color: var(--color-text);
+      border-bottom: 1px solid var(--color-border);
+      transition: background-color var(--transition-fast);
+    }
+
+    .home-tools-item:nth-child(odd) {
+      border-inline-end: 1px solid var(--color-border);
+    }
+
+    .home-tools-item:hover {
+      background: var(--color-surface-soft);
+    }
+
+    .home-tools-item-wide {
+      grid-column: 1 / -1;
+      border-inline-end: none;
+      border-bottom: none;
+    }
+
+    .home-tools-icon {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
+    }
+
+    .home-tools-icon .icon { width: 17px; height: 17px; }
+
+    .home-tools-icon.t-green  { background: var(--color-green-light);  color: var(--color-green); }
+    .home-tools-icon.t-blue   { background: var(--color-blue-light);   color: var(--color-blue); }
+    .home-tools-icon.t-yellow { background: var(--color-yellow-light); color: var(--color-yellow-dark); }
+    .home-tools-icon.t-purple { background: var(--color-purple-light); color: var(--color-purple); }
+
+    .home-tools-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    /* =========================================================
+       LIST (إعلانات / امتحانات)
+       ========================================================= */
+    .home-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .home-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      color: var(--color-text);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .home-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(28, 43, 132, 0.28);
+    }
+
+    .home-item-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 18px;
+      background: var(--color-surface-soft);
+    }
+
+    .home-item-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .home-item-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .home-item-meta {
+      margin: 3px 0 0;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       TODAY LIST (مهام المنظم — timeline مدمج)
+       ========================================================= */
+    .home-today-list {
+      gap: 8px;
+    }
+
+    .home-today-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+    }
+
+    .home-today-time {
+      flex-shrink: 0;
+      min-width: 46px;
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      direction: ltr;
+      text-align: center;
+    }
+
+    .home-today-dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-border);
+    }
+
+    .home-today-row.is-done .home-today-dot {
+      background: var(--color-green);
+    }
+
+    .home-today-title {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    .home-today-row.is-done .home-today-title {
+      color: var(--color-text-muted);
+      text-decoration: line-through;
+      text-decoration-color: var(--color-border);
+    }
+
+    .home-today-check {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      color: var(--color-green);
+    }
+
+    .home-today-empty {
+      padding: var(--space-20) var(--space-16);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-soft);
+      text-align: center;
+    }
+
+    .home-today-empty-title {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+
+    .home-today-empty-text {
+      margin: 0 0 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .home-today-empty-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--color-green);
+      text-decoration: none;
+    }
+
+    .home-today-empty-link:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       SKELETON / EMPTY CONTAINERS
+       ========================================================= */
+    .home-skeleton-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .home-skeleton-row {
+      height: 68px;
+      border-radius: 16px;
+      background: linear-gradient(
+        90deg,
+        var(--color-surface-soft) 25%,
+        var(--color-border) 50%,
+        var(--color-surface-soft) 75%
+      );
+      background-size: 200% 100%;
+      animation: home-skeleton-shimmer 1.4s ease-in-out infinite;
+    }
+
+    @keyframes home-skeleton-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .home-empty {
+      padding: 22px 16px;
+      border-radius: 16px;
+      background: var(--color-surface-soft);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 600px) {
+      .home-tools-panel {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .home-tools-item:not(.home-tools-item-wide) {
+        border-inline-end: 1px solid var(--color-border);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-action,
+      .home-tools-item,
+      .home-item {
+        transition: none;
+      }
+      .home-progress-bar-fill {
+        transition: none;
+      }
+      .home-skeleton-row {
+        animation: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <main class="home-page" id="homePage">
+
+    <!-- ============================================================
+         WELCOME HEADER
+         ============================================================ -->
+    <header class="home-welcome">
+      <div class="home-welcome-inner">
+        <div class="home-welcome-top">
+          <h1 class="home-greeting" id="greeting">
+            أهلاً بيك <span class="icon icon-wave" aria-hidden="true"></span>
+          </h1>
+          <span class="home-welcome-date" id="welcomeDate">—</span>
+        </div>
+
+        <p class="home-welcome-context" id="welcomeContext" style="display: none;"></p>
+
+        <p class="home-welcome-stage" id="stageBadge" style="display: none;">
+          <span class="icon icon-graduation-cap" aria-hidden="true"></span>
+          <span id="stageBadgeText">—</span>
+        </p>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+    <div class="home-content">
+
+      <!-- ==============================================
+           أهم شيء جديد (Hero Action)
+           ============================================== -->
+      <section class="home-section" id="heroSection" style="display: none;">
+        <a
+          href="#"
+          class="hero-action"
+          id="heroAction"
+          data-variant="green"
+        >
+          <div class="hero-action-icon" id="heroIcon" aria-hidden="true"><span class="icon icon-exam-paper" aria-hidden="true"></span></div>
+          <div class="hero-action-body">
+            <p class="hero-action-label" id="heroLabel">الأهم الآن</p>
+            <h2 class="hero-action-title" id="heroTitle">—</h2>
+            <p class="hero-action-text" id="heroText">—</p>
+          </div>
+          <span class="hero-action-end">
+            <span class="hero-action-cta" id="heroCta"></span>
+            <span class="icon icon-arrow-back" aria-hidden="true"></span>
+          </span>
+        </a>
+      </section>
+
+      <!-- ==============================================
+           نشاط الطالب (Stats)
+           ============================================== -->
+      <section class="home-section">
+        <div class="home-section-head">
+          <h2 class="home-section-title">تقدمك</h2>
+          <a href="profile.html" class="home-section-link">التفاصيل</a>
+        </div>
+
+        <div class="home-progress-highlight" id="progressHighlight" style="display: none;">
+          <div class="home-progress-highlight-head">
+            <span class="home-progress-highlight-label">متوسط الأداء</span>
+            <span class="home-progress-highlight-value" id="progressValue">0%</span>
+          </div>
+          <div class="home-progress-bar">
+            <div class="home-progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="home-stats" id="statsRow">
+          <!-- سيتم تعبئتها من JS -->
+        </div>
+      </section>
+
+      <!-- ==============================================
+           اليوم (مهام المنظم لليوم الحالي)
+           ============================================== -->
+      <section class="home-section" id="todaySection" style="display: none;">
+        <div class="home-section-head">
+          <h2 class="home-section-title">النهارده</h2>
+          <a href="planner.html" class="home-section-link">خطتك</a>
+        </div>
+
+        <div class="home-list home-today-list" id="todayList">
+          <!-- skeleton مؤقت -->
+          <div class="home-skeleton-block">
+            <div class="home-skeleton-row"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           وصول سريع (Quick Access)
+           ============================================== -->
+      <section class="home-section">
+        <div class="home-section-head">
+          <h2 class="home-section-title">أدواتك</h2>
+        </div>
+
+        <!-- "الرسائل" اتشالت من هنا لأنها موجودة أصلاً في Bottom Nav
+             وفي قسم "آخر نشاط" تحت — مفيش داعي لتكرارها هنا -->
+        <div class="home-tools-panel">
+          <a href="lessons.html" class="home-tools-item">
+            <span class="home-tools-icon t-blue" aria-hidden="true"><span class="icon icon-video" aria-hidden="true"></span></span>
+            <span class="home-tools-label">الدروس</span>
+          </a>
+
+          <a href="exams.html" class="home-tools-item">
+            <span class="home-tools-icon t-green" aria-hidden="true"><span class="icon icon-exam-paper" aria-hidden="true"></span></span>
+            <span class="home-tools-label">الاختبارات</span>
+          </a>
+
+          <a href="planner.html" class="home-tools-item">
+            <span class="home-tools-icon t-yellow" aria-hidden="true"><span class="icon icon-calendar" aria-hidden="true"></span></span>
+            <span class="home-tools-label">خطتك</span>
+          </a>
+
+          <a href="ai.html" class="home-tools-item">
+            <span class="home-tools-icon t-purple" aria-hidden="true"><span class="icon icon-sparkles" aria-hidden="true"></span></span>
+            <span class="home-tools-label">اسأل</span>
+          </a>
+
+          <a href="profile.html" class="home-tools-item home-tools-item-wide">
+            <span class="home-tools-icon" aria-hidden="true"><span class="icon icon-user" aria-hidden="true"></span></span>
+            <span class="home-tools-label">ملفي</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           آخر نشاط (إعلانات + اختبارات متاحة)
+           ============================================== -->
+      <section class="home-section">
+        <div class="home-section-head">
+          <h2 class="home-section-title">الجديد</h2>
+        </div>
+
+        <div class="home-subsection">
+          <div class="home-subsection-head">
+            <h3 class="home-subsection-title">الإعلانات</h3>
+            <a href="announcements.html" class="home-section-link">شوف الكل</a>
+          </div>
+
+          <div class="home-list" id="announcementsList">
+            <!-- skeleton مؤقت -->
+            <div class="home-skeleton-block">
+              <div class="home-skeleton-row"></div>
+              <div class="home-skeleton-row"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-subsection">
+          <div class="home-subsection-head">
+            <h3 class="home-subsection-title">اختبارات جاهزة</h3>
+            <a href="exams.html" class="home-section-link">شوف الكل</a>
+          </div>
+
+          <div class="home-list" id="examsList">
+            <!-- skeleton مؤقت -->
+            <div class="home-skeleton-block">
+              <div class="home-skeleton-row"></div>
+              <div class="home-skeleton-row"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       Bottom Navigation — سيتم بناؤها ديناميكيًا من JS
+       ============================================================ -->
+  <div id="bottomNavSlot"></div>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/index.js"></script>
+
+</body>
+</html>

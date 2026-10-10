@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="var(--color-blue)" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — الدروس" />
+
+  <title>الدروس — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       PAGE BASE
+       ========================================================= */
+    .lessons-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      padding-bottom: calc(var(--safe-bottom) + 90px);
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .ls-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(var(--safe-top) + 16px) 16px 14px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .ls-header-inner {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ls-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .ls-subtitle {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .ls-header-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: var(--color-blue-light);
+      font-size: 22px;
+    }
+
+    /* =========================================================
+       TABS
+       ========================================================= */
+    .ls-tabs-wrap {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 14px 16px 0;
+    }
+
+    .ls-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 5px;
+      background: var(--color-surface-soft);
+      border-radius: 999px;
+    }
+
+    .ls-tab {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 42px;
+      padding: 8px 12px;
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .ls-tab:hover {
+      color: var(--color-text);
+    }
+
+    .ls-tab.is-active {
+      background: var(--color-surface);
+      color: var(--color-text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    /* الألوان حسب نوع الدرس */
+    .ls-tab[data-kind="video"].is-active {
+      color: var(--color-blue-dark);
+    }
+    .ls-tab[data-kind="audio"].is-active {
+      color: var(--color-primary-dark);
+    }
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+    .ls-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 16px;
+    }
+
+    .ls-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* =========================================================
+       LESSON CARD
+       ========================================================= */
+    .ls-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .ls-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(28, 123, 196, 0.35);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    .ls-card:active {
+      transform: translateY(0);
+    }
+
+    .ls-card-icon {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      font-size: 24px;
+      background: var(--color-blue-light);
+    }
+
+    .ls-card.is-audio .ls-card-icon {
+      background: var(--color-green-light);
+    }
+
+    .ls-card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ls-card-title {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .ls-card-meta {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    .ls-card-arrow {
+      flex-shrink: 0;
+      font-size: 18px;
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+
+    /* =========================================================
+       STATES
+       ========================================================= */
+    .ls-state {
+      padding: 44px 20px;
+      text-align: center;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+    }
+
+    .ls-state-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .ls-state-title {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    .ls-state-text {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    /* Skeleton */
+    .ls-skeleton {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ls-skeleton-card {
+      height: 82px;
+      border-radius: 16px;
+      background: linear-gradient(
+        90deg,
+        var(--color-surface-soft) 25%,
+        var(--color-border) 50%,
+        var(--color-surface-soft) 75%
+      );
+      background-size: 200% 100%;
+      animation: ls-shimmer 1.4s ease-in-out infinite;
+    }
+
+    @keyframes ls-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* =========================================================
+       PLAYER MODAL
+       ========================================================= */
+    .ls-player-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.75);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .ls-player-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ls-player {
+      width: 100%;
+      max-width: 720px;
+      background: var(--color-surface);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      transform: scale(0.96);
+      transition: transform 0.2s ease;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ls-player-overlay.is-open .ls-player {
+      transform: scale(1);
+    }
+
+    .ls-player-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .ls-player-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .ls-player-close {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-surface-soft);
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--color-text);
+      transition: background-color 0.15s ease;
+    }
+
+    .ls-player-close:hover {
+      background: var(--color-border);
+    }
+
+    .ls-player-body {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    .ls-player-body iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .ls-player-note {
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 700px) {
+      .ls-content {
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ls-card,
+      .ls-tab,
+      .ls-player-overlay,
+      .ls-player {
+        transition: none;
+      }
+      .ls-skeleton-card {
+        animation: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="ls-header">
+    <div class="ls-header-inner">
+      <div>
+        <h1 class="ls-title">الدروس</h1>
+        <p class="ls-subtitle" id="lsSubtitle">اختر الدرس وابدأ الآن</p>
+      </div>
+      <div class="ls-header-icon" aria-hidden="true"><span class="icon icon-video" aria-hidden="true"></span></div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       TABS
+       ============================================================ -->
+  <div class="ls-tabs-wrap">
+    <div class="ls-tabs" role="tablist" aria-label="نوع الدروس">
+      <button
+        type="button"
+        class="ls-tab is-active"
+        data-kind="video"
+        role="tab"
+        aria-selected="true"
+      >
+        <span aria-hidden="true"><span class="icon icon-video" aria-hidden="true"></span></span>
+        <span>فيديو</span>
+      </button>
+      <button
+        type="button"
+        class="ls-tab"
+        data-kind="audio"
+        role="tab"
+        aria-selected="false"
+      >
+        <span aria-hidden="true"><span class="icon icon-headphones" aria-hidden="true"></span></span>
+        <span>صوت</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CONTENT
+       ============================================================ -->
+  <main class="ls-content">
+
+    <!-- Loading Skeleton -->
+    <div class="ls-skeleton" id="lsSkeleton">
+      <div class="ls-skeleton-card"></div>
+      <div class="ls-skeleton-card"></div>
+      <div class="ls-skeleton-card"></div>
+      <div class="ls-skeleton-card"></div>
+    </div>
+
+    <!-- List -->
+    <div class="ls-list" id="lsList" style="display: none;"></div>
+
+    <!-- Empty State -->
+    <div class="ls-state" id="lsEmpty" style="display: none;">
+      <div class="ls-state-icon" aria-hidden="true"><span class="icon icon-books" aria-hidden="true"></span></div>
+      <h2 class="ls-state-title" id="lsEmptyTitle">
+        لا توجد دروس فيديو متاحة حاليًا
+      </h2>
+      <p class="ls-state-text">
+        هيظهر هنا أي درس جديد لمستر إسماعيل.
+      </p>
+    </div>
+
+    <!-- Error State -->
+    <div class="ls-state" id="lsError" style="display: none;">
+      <div class="ls-state-icon" aria-hidden="true"><span class="icon icon-warning" aria-hidden="true"></span></div>
+      <h2 class="ls-state-title">تعذر تحميل الدروس</h2>
+      <p class="ls-state-text">
+        تأكد من اتصالك بالإنترنت وحاول مرة أخرى.
+      </p>
+      <button
+        type="button"
+        id="lsRetryBtn"
+        style="
+          margin-top: 16px;
+          min-height: 44px;
+          padding: 0 22px;
+          border-radius: 12px;
+          background: var(--color-blue);
+          color: #FFFFFF;
+          font-family: var(--font-arabic);
+          font-size: 14px;
+          font-weight: 800;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 0 var(--color-blue-dark);
+        "
+      >
+        حاول مرة أخرى
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       PLAYER MODAL
+       ============================================================ -->
+  <div
+    class="ls-player-overlay"
+    id="lsPlayerOverlay"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lsPlayerTitle"
+  >
+    <div class="ls-player" id="lsPlayer">
+
+      <div class="ls-player-head">
+        <h2 class="ls-player-title" id="lsPlayerTitle">—</h2>
+        <button
+          type="button"
+          class="ls-player-close"
+          id="lsPlayerCloseBtn"
+          aria-label="إغلاق"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="ls-player-body" id="lsPlayerBody">
+        <!-- iframe يتم حقنه هنا -->
+      </div>
+
+      <div class="ls-player-note">
+        لو الفيديو مش شغال، تأكد من اتصالك بالإنترنت.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Bottom Navigation Slot
+       ============================================================ -->
+  <div id="bottomNavSlot"></div>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/lessons.js"></script>
+
+</body>
+</html>

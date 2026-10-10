@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — الرسائل والإعلانات" />
+
+  <title>الرسائل والإعلانات — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       PAGE BASE
+       ========================================================= */
+    .announcements-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      padding-bottom: calc(var(--safe-bottom) + 90px);
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .ann-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(var(--safe-top) + 16px) 16px 14px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .ann-header-inner {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ann-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .ann-subtitle {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .ann-header-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: var(--color-green-light);
+      font-size: 22px;
+    }
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+    .ann-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 16px;
+    }
+
+    .ann-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* =========================================================
+       ANNOUNCEMENT CARD
+       ========================================================= */
+    .ann-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .ann-card.is-unread {
+      border-color: rgba(28, 43, 132, 0.4);
+      box-shadow: 0 4px 14px rgba(28, 43, 132, 0.08);
+    }
+
+    .ann-card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .ann-card-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--color-green-light);
+      font-size: 18px;
+    }
+
+    .ann-card-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ann-card-title {
+      margin: 0 0 3px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .ann-card-date {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    .ann-card-body {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Actions */
+    .ann-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .ann-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 12px;
+      font-family: var(--font-arabic);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.12s ease, background-color 0.15s ease;
+    }
+
+    .ann-action-btn:active {
+      transform: translateY(1px);
+    }
+
+    .ann-action-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    .ann-action-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-primary-dark);
+    }
+
+    .ann-action-secondary {
+      background: var(--color-surface-soft);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .ann-action-secondary:hover {
+      background: var(--color-border);
+    }
+
+    /* =========================================================
+       STATE CONTAINERS (Loading / Empty / Error)
+       ========================================================= */
+    .ann-state {
+      padding: 44px 20px;
+      text-align: center;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+    }
+
+    .ann-state-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .ann-state-title {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    .ann-state-text {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    /* Skeleton */
+    .ann-skeleton {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ann-skeleton-card {
+      height: 120px;
+      border-radius: 18px;
+      background: linear-gradient(
+        90deg,
+        var(--color-surface-soft) 25%,
+        var(--color-border) 50%,
+        var(--color-surface-soft) 75%
+      );
+      background-size: 200% 100%;
+      animation: ann-shimmer 1.4s ease-in-out infinite;
+    }
+
+    @keyframes ann-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* =========================================================
+       REPLY MODAL (داخل الصفحة)
+       ========================================================= */
+    .reply-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .reply-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .reply-sheet {
+      width: 100%;
+      max-width: 540px;
+      background: var(--color-surface);
+      border-radius: 22px 22px 0 0;
+      padding: 20px 18px calc(var(--safe-bottom) + 20px);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.18);
+      transform: translateY(100%);
+      transition: transform 0.25s ease;
+    }
+
+    .reply-overlay.is-open .reply-sheet {
+      transform: translateY(0);
+    }
+
+    .reply-sheet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .reply-sheet-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .reply-sheet-close {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-surface-soft);
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--color-text);
+    }
+
+    .reply-sheet-sub {
+      margin: 0 0 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .reply-textarea {
+      width: 100%;
+      min-height: 110px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1.5px solid var(--color-border);
+      background: var(--color-bg);
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.7;
+      resize: vertical;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .reply-textarea::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.75;
+    }
+
+    .reply-textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(28, 43, 132, 0.12);
+    }
+
+    .reply-error {
+      display: none;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-red);
+    }
+
+    .reply-error.is-visible {
+      display: block;
+    }
+
+    .reply-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .reply-btn {
+      flex: 1;
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.12s ease, opacity 0.15s ease;
+    }
+
+    .reply-btn-send {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    .reply-btn-send:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-primary-dark);
+    }
+
+    .reply-btn-send:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    .reply-btn-cancel {
+      background: var(--color-surface-soft);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .reply-btn-cancel:hover {
+      background: var(--color-border);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 700px) {
+      .ann-content {
+        padding: 20px;
+      }
+
+      .ann-card {
+        padding: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ann-card,
+      .ann-action-btn,
+      .reply-overlay,
+      .reply-sheet,
+      .reply-btn {
+        transition: none;
+      }
+      .ann-skeleton-card {
+        animation: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="ann-header">
+    <div class="ann-header-inner">
+      <div>
+        <h1 class="ann-title">الرسائل والإعلانات</h1>
+        <p class="ann-subtitle" id="annSubtitle">آخر ما نشره مستر إسماعيل</p>
+      </div>
+      <div class="ann-header-icon" aria-hidden="true"><span class="icon icon-announcement" aria-hidden="true"></span></div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       CONTENT
+       ============================================================ -->
+  <main class="ann-content">
+
+    <!-- Loading Skeleton -->
+    <div class="ann-skeleton" id="annSkeleton">
+      <div class="ann-skeleton-card"></div>
+      <div class="ann-skeleton-card"></div>
+      <div class="ann-skeleton-card"></div>
+    </div>
+
+    <!-- List of Announcements -->
+    <div class="ann-list" id="annList" style="display: none;"></div>
+
+    <!-- Empty State -->
+    <div class="ann-state" id="annEmpty" style="display: none;">
+      <div class="ann-state-icon" aria-hidden="true"><span class="icon icon-mail-empty" aria-hidden="true"></span></div>
+      <h2 class="ann-state-title">لا توجد إعلانات حاليًا</h2>
+      <p class="ann-state-text">
+        هيظهر هنا أي إعلان أو رسالة من مستر إسماعيل.
+      </p>
+    </div>
+
+    <!-- Error State -->
+    <div class="ann-state" id="annError" style="display: none;">
+      <div class="ann-state-icon" aria-hidden="true"><span class="icon icon-warning" aria-hidden="true"></span></div>
+      <h2 class="ann-state-title">تعذر تحميل الإعلانات</h2>
+      <p class="ann-state-text">
+        تأكد من اتصالك بالإنترنت وحاول مرة أخرى.
+      </p>
+      <button
+        type="button"
+        id="annRetryBtn"
+        style="
+          margin-top: 16px;
+          min-height: 44px;
+          padding: 0 22px;
+          border-radius: 12px;
+          background: var(--color-primary);
+          color: #FFFFFF;
+          font-family: var(--font-arabic);
+          font-size: 14px;
+          font-weight: 800;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 0 var(--color-primary-dark);
+        "
+      >
+        حاول مرة أخرى
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       REPLY MODAL
+       ============================================================ -->
+  <div
+    class="reply-overlay"
+    id="replyOverlay"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="replyTitle"
+  >
+    <div class="reply-sheet" id="replySheet">
+
+      <div class="reply-sheet-head">
+        <h2 class="reply-sheet-title" id="replyTitle">الرد على المعلم</h2>
+        <button
+          type="button"
+          class="reply-sheet-close"
+          id="replyCloseBtn"
+          aria-label="إغلاق"
+        >
+          ×
+        </button>
+      </div>
+
+      <p class="reply-sheet-sub" id="replySubtitle">
+        سيصل ردك لمستر إسماعيل فقط.
+      </p>
+
+      <textarea
+        class="reply-textarea"
+        id="replyTextarea"
+        placeholder="اكتب ردك هنا..."
+        rows="4"
+        maxlength="2000"
+      ></textarea>
+
+      <div class="reply-error" id="replyError"></div>
+
+      <div class="reply-actions">
+        <button
+          type="button"
+          class="reply-btn reply-btn-cancel"
+          id="replyCancelBtn"
+        >
+          إلغاء
+        </button>
+        <button
+          type="button"
+          class="reply-btn reply-btn-send"
+          id="replySendBtn"
+        >
+          إرسال
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Bottom Navigation Slot
+       ============================================================ -->
+  <div id="bottomNavSlot"></div>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/announcements.js"></script>
+
+</body>
+</html>

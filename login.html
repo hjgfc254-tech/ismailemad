@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — تسجيل الدخول" />
+  <title>تسجيل الدخول — منصة أ/ إسماعيل عماد</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Project Styles -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <style>
+    /* =========================================================
+       LOGIN PAGE
+       ========================================================= */
+    .login-page {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(28, 43, 132, 0.12),
+          transparent 38%
+        ),
+        var(--color-bg);
+      padding:
+        calc(var(--safe-top) + 32px)
+        16px
+        calc(var(--safe-bottom) + 32px);
+    }
+    /* زخرفة خلفية خفيفة */
+    .login-page::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      top: -150px;
+      left: -100px;
+      border-radius: 50%;
+      background: rgba(28, 43, 132, 0.06);
+      pointer-events: none;
+    }
+    .login-page::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      bottom: -130px;
+      right: -90px;
+      border-radius: 50%;
+      background: rgba(28, 43, 132, 0.05);
+      pointer-events: none;
+    }
+    /* =========================================================
+       BRAND
+       ========================================================= */
+    .login-brand {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 8px;
+      margin-bottom: 28px;
+    }
+    .login-illustration {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    .login-brand-icon {
+      width: 76px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+      background: var(--color-green-light);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 15px;
+    }
+    .login-brand-icon .icon {
+      width: 36px;
+      height: 36px;
+      color: var(--color-green);
+    }
+    .login-brand-name {
+      margin: 0 0 5px;
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: var(--fw-black);
+      color: var(--color-text);
+      line-height: 1.25;
+      letter-spacing: -0.4px;
+    }
+    .login-brand-subtitle {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+    }
+    /* =========================================================
+       LOGIN CARD
+       ========================================================= */
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 430px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.07),
+        0 3px 12px rgba(0, 0, 0, 0.035);
+    }
+    .login-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 28px;
+      left: 28px;
+      height: 3px;
+      border-radius: 0 0 8px 8px;
+      background: var(--color-green);
+    }
+    /* =========================================================
+       TITLES
+       ========================================================= */
+    .login-title {
+      margin: 0 0 8px;
+      font-size: 25px;
+      font-weight: var(--fw-black);
+      color: var(--color-text);
+      line-height: 1.3;
+      text-align: center;
+    }
+    .login-subtitle {
+      margin: 0 0 26px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      text-align: center;
+    }
+    /* =========================================================
+       FORM
+       ========================================================= */
+    .login-form {
+      width: 100%;
+    }
+    .login-form .form-group {
+      margin-bottom: 19px;
+    }
+    .login-form .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .login-form .required {
+      color: var(--color-red);
+      margin-right: 3px;
+    }
+    .login-form .form-input,
+    .login-form .form-select {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 14px;
+      padding: 0 15px;
+      border: 1.5px solid var(--color-border);
+      background: var(--color-bg);
+      font-family: var(--font-arabic);
+      font-size: 15px;
+      color: var(--color-text);
+      transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+    }
+    .login-form .form-input::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+    .login-form .form-input:focus,
+    .login-form .form-select:focus {
+      outline: none;
+      border-color: var(--color-green);
+      background: var(--color-surface);
+      box-shadow:
+        0 0 0 4px rgba(28, 43, 132, 0.12);
+    }
+    /* =========================================================
+       FIRST LOGIN
+       ========================================================= */
+    .first-login-section {
+      display: none;
+      margin-top: 6px;
+      margin-bottom: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--color-border);
+    }
+    .first-login-section.is-visible {
+      display: block;
+    }
+    .first-login-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 13px 14px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      background: rgba(255, 207, 51, 0.10);
+      border: 1px solid rgba(255, 207, 51, 0.18);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+    .first-login-notice-icon {
+      flex-shrink: 0;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    /* =========================================================
+       SUBMIT BUTTON
+       ========================================================= */
+    .login-submit-btn {
+      width: 100%;
+      min-height: 53px;
+      margin-top: 4px;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow:
+        0 7px 18px rgba(28, 43, 132, 0.18);
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+    .login-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 10px 24px rgba(28, 43, 132, 0.22);
+    }
+    .login-submit-btn:active {
+      transform: translateY(1px);
+    }
+    .login-submit-btn:disabled {
+      opacity: 0.7;
+      transform: none;
+    }
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .login-footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+    .login-footer-text {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+    .login-footer .btn {
+      min-height: 47px;
+      border-radius: 13px;
+      font-family: var(--font-arabic);
+      font-weight: 700;
+    }
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+    @media (max-width: 480px) {
+      .login-page {
+        padding-top: 24px;
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+      .login-brand {
+        margin-bottom: 22px;
+      }
+      .login-brand-icon {
+        width: 68px;
+        height: 68px;
+        border-radius: 21px;
+        font-size: 32px;
+      }
+      .login-brand-name {
+        font-size: 22px;
+      }
+      .login-brand-subtitle {
+        font-size: 13px;
+      }
+      .login-card {
+        padding: 24px 20px;
+        border-radius: 21px;
+      }
+      .login-title {
+        font-size: 23px;
+      }
+      .login-subtitle {
+        margin-bottom: 23px;
+      }
+    }
+    /* =========================================================
+       ACCESSIBILITY
+       ========================================================= */
+    @media (prefers-reduced-motion: reduce) {
+      .login-submit-btn,
+      .login-form .form-input,
+      .login-form .form-select {
+        transition: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+<body>
+  <main class="login-page" id="loginPage">
+    <!-- =======================================================
+         BRAND
+         ======================================================= -->
+    <div class="login-brand">
+      <img
+        class="login-illustration"
+        src="images/login-illustration.svg"
+        alt=""
+        aria-hidden="true"
+      />
+      <div
+        class="login-brand-icon"
+        aria-hidden="true"
+      >
+        <span class="icon icon-books" aria-hidden="true"></span>
+      </div>
+      <h1 class="login-brand-name">
+        منصة أ/ إسماعيل عماد
+      </h1>
+      <p class="login-brand-subtitle">
+        منصة تعليمية لطلاب مستر إسماعيل
+      </p>
+    </div>
+    <!-- =======================================================
+         LOGIN CARD
+         ======================================================= -->
+    <div class="login-card">
+      <h2 class="login-title">
+        تسجيل الدخول
+      </h2>
+      <p class="login-subtitle">
+        أدخل الكود وكلمة المرور للدخول إلى حسابك
+      </p>
+      <form
+        class="login-form"
+        id="loginForm"
+        novalidate
+      >
+        <!-- الكود -->
+        <div class="form-group">
+          <label
+            class="form-label"
+            for="codeInput"
+          >
+            الكود
+            <span
+              class="required"
+              aria-hidden="true"
+            >*</span>
+          </label>
+          <input
+            type="text"
+            id="codeInput"
+            name="code"
+            class="form-input"
+            placeholder="الكود (5 أرقام)"
+            autocomplete="username"
+            inputmode="numeric"
+            maxlength="5"
+            spellcheck="false"
+            dir="ltr"
+            required
+          />
+        </div>
+        <!-- كلمة المرور -->
+        <div class="form-group">
+          <label
+            class="form-label"
+            for="passwordInput"
+          >
+            كلمة المرور
+            <span
+              class="required"
+              aria-hidden="true"
+            >*</span>
+          </label>
+          <input
+            type="password"
+            id="passwordInput"
+            name="password"
+            class="form-input"
+            placeholder="كلمة المرور (6 أرقام)"
+            autocomplete="current-password"
+            inputmode="numeric"
+            maxlength="6"
+            dir="ltr"
+            required
+          />
+        </div>
+        <!-- ===================================================
+             FIRST LOGIN
+             =================================================== -->
+        <div
+          class="first-login-section"
+          id="firstLoginSection"
+        >
+          <div class="first-login-notice">
+            <span
+              class="first-login-notice-icon"
+              aria-hidden="true"
+            >
+              <span class="icon icon-celebrate" aria-hidden="true"></span>
+            </span>
+            <span>
+              هذه أول مرة يتم فيها استخدام الكود.
+              من فضلك أكمل بياناتك.
+            </span>
+          </div>
+          <!-- الاسم الكامل -->
+          <div class="form-group">
+            <label
+              class="form-label"
+              for="fullNameInput"
+            >
+              الاسم الكامل
+              <span
+                class="required"
+                aria-hidden="true"
+              >*</span>
+            </label>
+            <input
+              type="text"
+              id="fullNameInput"
+              name="fullName"
+              class="form-input"
+              placeholder="مثال: أحمد محمد"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <!-- المرحلة -->
+          <div class="form-group">
+            <label
+              class="form-label"
+              for="stageSelect"
+            >
+              المرحلة الدراسية
+              <span
+                class="required"
+                aria-hidden="true"
+              >*</span>
+            </label>
+            <select
+              id="stageSelect"
+              name="stage"
+              class="form-select"
+              required
+            >
+              <option value="">اختر المرحلة</option>
+              <option value="grade_4">
+                الصف الرابع الابتدائي
+              </option>
+              <option value="grade_5">
+                الصف الخامس الابتدائي
+              </option>
+              <option value="grade_6">
+                الصف السادس الابتدائي
+              </option>
+              <option value="prep_1">
+                الصف الأول الإعدادي
+              </option>
+              <option value="prep_2">
+                الصف الثاني الإعدادي
+              </option>
+              <option value="prep_3">
+                الصف الثالث الإعدادي
+              </option>
+              <option value="sec_1">
+                الصف الأول الثانوي
+              </option>
+              <option value="sec_2">
+                الصف الثاني الثانوي
+              </option>
+              <option value="sec_3">
+                الصف الثالث الثانوي
+              </option>
+            </select>
+          </div>
+        </div>
+        <!-- زر الدخول -->
+        <button
+          type="submit"
+          class="btn btn-primary btn-block login-submit-btn"
+          id="submitBtn"
+        >
+          دخول
+        </button>
+      </form>
+      <!-- =====================================================
+           SUBSCRIBE
+           ===================================================== -->
+      <div class="login-footer">
+        <p class="login-footer-text">
+          لو مش معاك كود، اضغط هنا واشترك واحصل على الكود.
+        </p>
+        <a
+          href="subscribe.html"
+          class="btn btn-ghost btn-block"
+          id="subscribeLink"
+        >
+          اشترك الآن
+        </a>
+      </div>
+    </div>
+  </main>
+  <!-- JavaScript -->
+  <script
+    type="module"
+    src="js/login.js"
+  ></script>
+</body>
+</html>

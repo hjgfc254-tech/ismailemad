@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>تجهيز قاعدة البيانات</title>
+  <style>
+    :root {
+      --bg: #F4F6FB;
+      --card: #FFFFFF;
+      --ink: #141A3C;
+      --muted: #596083;
+      --line: #D3DAEC;
+      --accent: #1C2B84;
+      --accent-ink: #FFFFFF;
+      --warn-bg: #FFF4C7;
+      --warn-ink: #8A6400;
+      --ok: #0B6B4D;
+      --err: #B02419;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 16px; background: var(--bg); color: var(--ink);
+      font-family: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
+      line-height: 1.7;
+    }
+    main { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; margin: 8px 0 4px; }
+    h2 { font-size: 1.05rem; margin: 0 0 10px; }
+    p { margin: 0 0 10px; color: var(--muted); }
+    section {
+      background: var(--card); border: 1px solid var(--line);
+      border-top: 5px solid #FFCF33; border-radius: 14px; padding: 16px; margin-top: 14px;
+    }
+    .warn {
+      background: var(--warn-bg); color: var(--warn-ink);
+      border-radius: 8px; padding: 10px 12px; font-size: .92rem;
+    }
+    label { display: block; font-size: .92rem; margin: 10px 0 4px; }
+    input {
+      width: 100%; padding: 11px 12px; font-size: 1rem; color: var(--ink);
+      background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    }
+    input[dir="ltr"] { text-align: left; }
+    input:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    button {
+      flex: 1 1 160px; padding: 13px 14px; font-size: 1rem; font-weight: 600;
+      border-radius: 12px; border: 2px solid var(--accent); cursor: pointer;
+      background: var(--accent); color: var(--accent-ink);
+    }
+    button.secondary { background: transparent; color: var(--accent); }
+    button.danger { background: transparent; color: var(--err); border-color: var(--err); }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li {
+      display: flex; justify-content: space-between; gap: 10px;
+      padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .95rem;
+    }
+    li:last-child { border-bottom: 0; }
+    li code { direction: ltr; unicode-bidi: embed; font-size: .9rem; }
+    .tag { color: var(--muted); white-space: nowrap; }
+    .tag.ok { color: var(--ok); }
+    .tag.err { color: var(--err); }
+    #log {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+      padding: 10px 12px; min-height: 90px; max-height: 280px; overflow: auto;
+      font-size: .9rem; white-space: pre-wrap; direction: rtl;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      button { transition: opacity .15s; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/editorial-redesign.css">
+</head>
+<body>
+<main>
+  <h1>تجهيز قاعدة البيانات</h1>
+  <p>ينشئ كل كوليكشنات المنصة في Firestore بضغطة واحدة، حتى لو كانت فارغة.</p>
+
+  <div class="warn">
+    قبل البدء (مرة واحدة): من Firebase Console ← Authentication ← Sign-in method ← فعّل <b>Email/Password</b>. وبعد التجهيز احذف <b>setup.html</b> و<b>setup.js</b> من المشروع وأعد النشر.
+  </div>
+
+  <section>
+    <h2>حساب الأدمن</h2>
+    <p>اكتب بريدك الحقيقي وكلمة مرور قوية. أول مرة: يُنشأ الحساب. بعد ذلك: نفس البيانات لتسجيل الدخول لهذه الصفحة.</p>
+    <label for="adminEmail">البريد الإلكتروني</label>
+    <input id="adminEmail" type="email" dir="ltr" autocomplete="off" placeholder="teacher@example.com">
+    <label for="adminName">الاسم</label>
+    <input id="adminName" type="text" autocomplete="off" placeholder="أ/ إسماعيل عماد">
+    <label for="adminPass">كلمة المرور</label>
+    <input id="adminPass" type="password" dir="ltr" autocomplete="new-password" placeholder="6 أحرف على الأقل">
+  </section>
+
+  <section>
+    <h2>الإجراءات</h2>
+    <div class="row">
+      <button id="btnCreate" type="button">إنشاء كل الكوليكشنات</button>
+      <button id="btnCheck" type="button" class="secondary">فحص الحالة</button>
+      <button id="btnClean" type="button" class="danger">حذف المستندات المؤقتة</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>الكوليكشنات</h2>
+    <ul id="list"></ul>
+  </section>
+
+  <section>
+    <h2>السجل</h2>
+    <div id="log" role="log" aria-live="polite">جاهز.</div>
+  </section>
+</main>
+<script type="module" src="setup.js"></script>
+</body>
+</html>

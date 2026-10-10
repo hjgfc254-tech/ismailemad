@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — الاختبارات" />
+
+  <title>الاختبارات — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       PAGE BASE
+       ========================================================= */
+    .exams-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      padding-bottom: calc(var(--safe-bottom) + 90px);
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .ex-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(var(--safe-top) + 16px) 16px 14px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .ex-header-inner {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ex-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .ex-subtitle {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .ex-header-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: var(--color-green-light);
+      font-size: 22px;
+    }
+
+    /* =========================================================
+       FILTER TABS
+       ========================================================= */
+    .ex-filters-wrap {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 14px 16px 0;
+    }
+
+    .ex-filters {
+      display: flex;
+      gap: 6px;
+      padding: 5px;
+      background: var(--color-surface-soft);
+      border-radius: 999px;
+    }
+
+    .ex-filter {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 8px 12px;
+      font-family: var(--font-arabic);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .ex-filter:hover {
+      color: var(--color-text);
+    }
+
+    .ex-filter.is-active {
+      background: var(--color-surface);
+      color: var(--color-text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+    .ex-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 16px;
+    }
+
+    .ex-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* =========================================================
+       EXAM CARD
+       ========================================================= */
+    .ex-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: border-color 0.15s ease;
+    }
+
+    .ex-card.is-available {
+      border-color: rgba(28, 43, 132, 0.35);
+    }
+
+    .ex-card.is-result-available {
+      border-color: rgba(28, 123, 196, 0.35);
+    }
+
+    .ex-card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .ex-card-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 13px;
+      font-size: 22px;
+      background: var(--color-surface-soft);
+    }
+
+    .ex-card.is-available .ex-card-icon {
+      background: var(--color-green-light);
+    }
+
+    .ex-card.is-result-available .ex-card-icon {
+      background: var(--color-blue-light);
+    }
+
+    .ex-card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ex-card-title {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .ex-card-meta {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* Status Badge */
+    .ex-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .ex-status-available {
+      background: var(--color-green-light);
+      color: var(--color-green-dark);
+    }
+
+    .ex-status-attempted {
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
+    }
+
+    .ex-status-pending {
+      background: var(--color-yellow-light);
+      color: var(--color-yellow-dark);
+    }
+
+    .ex-status-result {
+      background: var(--color-blue-light);
+      color: var(--color-blue-dark);
+    }
+
+    /* Actions */
+    .ex-card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .ex-action {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 48px;
+      padding: 0 16px;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.12s ease, background-color 0.15s ease;
+    }
+
+    .ex-action-start {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-primary-dark);
+    }
+
+    .ex-action-start:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-primary-dark);
+    }
+
+    .ex-action-result {
+      background: var(--color-blue);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 var(--color-blue-dark);
+    }
+
+    .ex-action-result:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--color-blue-dark);
+    }
+
+    .ex-action-disabled {
+      background: var(--color-surface-soft);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* =========================================================
+       STATES
+       ========================================================= */
+    .ex-state {
+      padding: 44px 20px;
+      text-align: center;
+      border-radius: 18px;
+      background: var(--color-surface-soft);
+    }
+
+    .ex-state-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .ex-state-title {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    .ex-state-text {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    /* Skeleton */
+    .ex-skeleton {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ex-skeleton-card {
+      height: 132px;
+      border-radius: 18px;
+      background: linear-gradient(
+        90deg,
+        var(--color-surface-soft) 25%,
+        var(--color-border) 50%,
+        var(--color-surface-soft) 75%
+      );
+      background-size: 200% 100%;
+      animation: ex-shimmer 1.4s ease-in-out infinite;
+    }
+
+    @keyframes ex-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (min-width: 700px) {
+      .ex-content {
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ex-card,
+      .ex-filter,
+      .ex-action {
+        transition: none;
+      }
+      .ex-skeleton-card {
+        animation: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="ex-header">
+    <div class="ex-header-inner">
+      <div>
+        <h1 class="ex-title">الاختبارات</h1>
+        <p class="ex-subtitle" id="exSubtitle">اختبر نفسك وقيس مستواك</p>
+      </div>
+      <div class="ex-header-icon" aria-hidden="true"><span class="icon icon-exam-paper" aria-hidden="true"></span></div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       FILTER TABS
+       ============================================================ -->
+  <div class="ex-filters-wrap">
+    <div class="ex-filters" role="tablist" aria-label="تصفية الاختبارات">
+      <button
+        type="button"
+        class="ex-filter is-active"
+        data-filter="all"
+        role="tab"
+        aria-selected="true"
+      >
+        الكل
+      </button>
+      <button
+        type="button"
+        class="ex-filter"
+        data-filter="available"
+        role="tab"
+        aria-selected="false"
+      >
+        متاح
+      </button>
+      <button
+        type="button"
+        class="ex-filter"
+        data-filter="done"
+        role="tab"
+        aria-selected="false"
+      >
+        تم
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CONTENT
+       ============================================================ -->
+  <main class="ex-content">
+
+    <!-- Loading Skeleton -->
+    <div class="ex-skeleton" id="exSkeleton">
+      <div class="ex-skeleton-card"></div>
+      <div class="ex-skeleton-card"></div>
+      <div class="ex-skeleton-card"></div>
+    </div>
+
+    <!-- List -->
+    <div class="ex-list" id="exList" style="display: none;"></div>
+
+    <!-- Empty State -->
+    <div class="ex-state" id="exEmpty" style="display: none;">
+      <div class="ex-state-icon" aria-hidden="true"><span class="icon icon-clipboard" aria-hidden="true"></span></div>
+      <h2 class="ex-state-title" id="exEmptyTitle">لا توجد اختبارات</h2>
+      <p class="ex-state-text" id="exEmptyText">
+        هيظهر هنا أي اختبار جديد لمستر إسماعيل.
+      </p>
+    </div>
+
+    <!-- Error State -->
+    <div class="ex-state" id="exError" style="display: none;">
+      <div class="ex-state-icon" aria-hidden="true"><span class="icon icon-warning" aria-hidden="true"></span></div>
+      <h2 class="ex-state-title">تعذر تحميل الاختبارات</h2>
+      <p class="ex-state-text">
+        تأكد من اتصالك بالإنترنت وحاول مرة أخرى.
+      </p>
+      <button
+        type="button"
+        id="exRetryBtn"
+        style="
+          margin-top: 16px;
+          min-height: 44px;
+          padding: 0 22px;
+          border-radius: 12px;
+          background: var(--color-primary);
+          color: #FFFFFF;
+          font-family: var(--font-arabic);
+          font-size: 14px;
+          font-weight: 800;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 0 var(--color-primary-dark);
+        "
+      >
+        حاول مرة أخرى
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       Bottom Navigation Slot
+       ============================================================ -->
+  <div id="bottomNavSlot"></div>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/exams.js"></script>
+
+</body>
+</html>

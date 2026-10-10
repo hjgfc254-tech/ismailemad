@@ -1,0 +1,278 @@
+rules_version = '2';
+
+/* ============================================================
+   قواعد Firestore — منصة أ/ إسماعيل عماد
+   ------------------------------------------------------------
+   الهوية تأتي من Firebase Authentication:
+   - الأدمن: لديه مستند admins/{uid}.
+   - الطالب: بريده الوهمي <الكود>@students.mrismailemad.com،
+     ويُسمح له فقط إذا كان مستند الكود codes/{الكود} بحالة active
+     ومرتبطًا به ولم تنتهِ صلاحيته (تعطيل الكود يقطع كل صلاحياته فورًا).
+   ⚠️ لو غيّرت النطاق في js/backend/core.js غيّره هنا أيضًا.
+   ============================================================ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* ---------------- دوال مساعدة ---------------- */
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.get('status', 'active') != 'disabled';
+    }
+
+    function isStudentMail() {
+      return signedIn()
+        && request.auth.token.email != null
+        && request.auth.token.email.matches('^[0-9]{5}@students[.]mrismailemad[.]com$');
+    }
+
+    function myCode() {
+      return request.auth.token.email.split('@')[0];
+    }
+
+    function myCodeDoc() {
+      return get(/databases/$(database)/documents/codes/$(myCode())).data;
+    }
+
+    // طالب مفعّل وصلاحية كوده سارية
+    function studentOk() {
+      return isStudentMail()
+        && exists(/databases/$(database)/documents/codes/$(myCode()))
+        && myCodeDoc().status == 'active'
+        && myCodeDoc().studentId == request.auth.uid
+        && (myCodeDoc().get('expiresAt', null) == null || myCodeDoc().expiresAt > request.time);
+    }
+
+    function validStage(s) {
+      return s in ['grade_4', 'grade_5', 'grade_6', 'prep_1', 'prep_2', 'prep_3', 'sec_1', 'sec_2', 'sec_3'];
+    }
+
+    // المعرّف يبدأ بـ uid الطالب (مثل {uid}_{lessonId})
+    function idStartsWithMe(id) {
+      return id.matches(request.auth.uid + '_.*');
+    }
+
+    // المعرّف ينتهي بـ uid الطالب (مثل {examId}_{uid})
+    function idEndsWithMe(id) {
+      return id.matches('.*_' + request.auth.uid);
+    }
+
+    /* ---------------- الأدمن وقفل الإنشاء ---------------- */
+
+    match /admins/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow list: if isAdmin();
+
+      // إنشاء الأدمن الأول فقط (قبل وجود قفل adminLock)
+      allow create: if signedIn()
+        && request.auth.uid == uid
+        && !exists(/databases/$(database)/documents/config/adminLock)
+        && request.resource.data.keys().hasOnly(['email', 'name', 'status', 'createdAt'])
+        && request.resource.data.email == request.auth.token.email;
+
+      allow update, delete: if isAdmin();
+    }
+
+    match /config/{doc} {
+      allow read: if isAdmin();
+      allow create: if signedIn()
+        && doc == 'adminLock'
+        && existsAfter(/databases/$(database)/documents/admins/$(request.auth.uid));
+      allow update, delete: if false;
+    }
+
+    /* ---------------- الإعدادات ---------------- */
+
+    match /settings/{doc} {
+      // general يقرؤه الجميع (صفحة الاشتراك عامة)، و ai للطلاب المفعّلين والأدمن
+      allow get: if isAdmin()
+        || doc == 'general'
+        || (doc == 'ai' && studentOk());
+      allow list: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    /* ---------------- الأكواد ---------------- */
+
+    match /codes/{code} {
+      allow get: if isAdmin() || (isStudentMail() && myCode() == code);
+      allow list: if isAdmin();
+      allow create, delete: if isAdmin();
+
+      allow update: if isAdmin() || (
+        isStudentMail()
+        && myCode() == code
+        && resource.data.status == 'unused'
+        && request.resource.data.status == 'active'
+        && request.resource.data.studentId == request.auth.uid
+        && validStage(request.resource.data.stage)
+        && request.resource.data.activatedAt == request.time
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['status', 'studentId', 'stage', 'activatedAt'])
+      );
+    }
+
+    /* ---------------- الطلاب ---------------- */
+
+    match /students/{uid} {
+      allow get: if isAdmin() || (request.auth.uid == uid && studentOk());
+      allow list: if isAdmin();
+
+      // أول دخول: الطالب ينشئ مستنده مرة واحدة أثناء تفعيل كوده
+      allow create: if isAdmin() || (
+        isStudentMail()
+        && request.auth.uid == uid
+        && get(/databases/$(database)/documents/codes/$(myCode())).data.get('status', 'unused') == 'unused'
+        && existsAfter(/databases/$(database)/documents/codes/$(myCode()))
+        && getAfter(/databases/$(database)/documents/codes/$(myCode())).data.status == 'active'
+        && getAfter(/databases/$(database)/documents/codes/$(myCode())).data.studentId == uid
+        && request.resource.data.keys().hasOnly(['fullName', 'stage', 'code', 'joinedAt', 'studyHoursTotal', 'lastLogin', 'status'])
+        && request.resource.data.status == 'active'
+        && request.resource.data.studyHoursTotal == 0
+        && request.resource.data.code == myCode()
+        && validStage(request.resource.data.stage)
+        && request.resource.data.fullName is string
+        && request.resource.data.fullName.size() >= 3
+        && request.resource.data.fullName.size() <= 100
+      );
+
+      allow update: if isAdmin() || (
+        request.auth.uid == uid
+        && studentOk()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastLogin', 'studyHoursTotal'])
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    /* ---------------- الدروس ---------------- */
+
+    match /lessons/{id} {
+      allow read: if isAdmin() || studentOk();
+      allow write: if isAdmin();
+    }
+
+    match /lessonGroups/{id} {
+      allow read: if true;            // صفحة الاشتراك العامة
+      allow write: if isAdmin();
+    }
+
+    match /lessonProgress/{id} {
+      allow get: if isAdmin() || (studentOk() && idStartsWithMe(id));
+      allow list: if isAdmin() || (studentOk() && resource.data.studentId == request.auth.uid);
+      allow create, update: if isAdmin() || (
+        studentOk() && idStartsWithMe(id) && request.resource.data.studentId == request.auth.uid
+      );
+      allow delete: if isAdmin();
+    }
+
+    /* ---------------- الإعلانات ---------------- */
+
+    match /announcements/{id} {
+      allow get, list: if isAdmin() || (
+        studentOk() && (
+          resource.data.targetType == 'all'
+          || resource.data.targetType == 'stage'
+          || (resource.data.targetType == 'student' && resource.data.targetValue == request.auth.uid)
+        )
+      );
+      allow write: if isAdmin();
+    }
+
+    match /announcementReads/{id} {
+      allow get: if isAdmin() || (studentOk() && idStartsWithMe(id));
+      allow list: if isAdmin() || (studentOk() && resource.data.studentId == request.auth.uid);
+      allow create, update: if isAdmin() || (
+        studentOk() && idStartsWithMe(id) && request.resource.data.studentId == request.auth.uid
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /announcementReplies/{id} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() || (
+        studentOk()
+        && request.resource.data.studentId == request.auth.uid
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 2000
+      );
+      allow update, delete: if isAdmin();
+    }
+
+    /* ---------------- الاختبارات ---------------- */
+
+    match /exams/{id} {
+      allow get, list: if isAdmin() || (studentOk() && resource.data.status == 'published');
+      allow write: if isAdmin();
+    }
+
+    match /examAttempts/{id} {
+      allow get: if isAdmin() || (studentOk() && idEndsWithMe(id));
+      allow list: if isAdmin() || (studentOk() && resource.data.studentId == request.auth.uid);
+
+      // محاولة واحدة: إنشاء فقط بمعرّف ثابت {examId}_{uid}
+      allow create: if isAdmin() || (
+        studentOk()
+        && request.resource.data.studentId == request.auth.uid
+        && id == request.resource.data.examId + '_' + request.auth.uid
+      );
+
+      // الطالب يستطيع فقط إظهار نتيجته بعد حلول موعدها
+      allow update: if isAdmin() || (
+        studentOk()
+        && resource.data.studentId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['resultVisible'])
+        && request.resource.data.resultVisible == true
+        && resource.data.visibleAt != null
+        && request.time >= resource.data.visibleAt
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    /* ---------------- المنظّم والمذاكرة والمساعد ---------------- */
+
+    match /planner/{id} {
+      allow get, create, update: if isAdmin() || (studentOk() && idStartsWithMe(id));
+      allow list, delete: if isAdmin();
+    }
+
+    match /studySessions/{id} {
+      allow read: if isAdmin() || (studentOk() && resource.data.studentId == request.auth.uid);
+      allow create: if isAdmin() || (
+        studentOk() && request.resource.data.studentId == request.auth.uid
+      );
+      allow update, delete: if isAdmin();
+    }
+
+    match /aiUsage/{id} {
+      allow get, create, update: if isAdmin() || (studentOk() && idStartsWithMe(id));
+      allow list, delete: if isAdmin();
+    }
+
+    /* ---------------- طلبات الاشتراك (عامة الإنشاء) ---------------- */
+
+    match /subscriptionRequests/{id} {
+      allow create: if isAdmin() || (
+        request.resource.data.keys().hasOnly(
+          ['stage', 'lessonGroupId', 'lessonGroupName', 'fullName', 'phone', 'status', 'createdAt', 'updatedAt'])
+        && request.resource.data.status == 'pending'
+        && validStage(request.resource.data.stage)
+        && request.resource.data.fullName is string
+        && request.resource.data.fullName.size() >= 3
+        && request.resource.data.fullName.size() <= 100
+        && request.resource.data.phone is string
+        && request.resource.data.phone.size() >= 6
+        && request.resource.data.phone.size() <= 20
+        && request.resource.data.createdAt == request.time
+      );
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1C2B84" />
+  <meta name="description" content="منصة أ/ إسماعيل عماد التعليمية — طلب الاشتراك" />
+
+  <title>طلب الاشتراك — منصة أ/ إسماعيل عماد</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=Inter:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/icons.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <style>
+    /* =========================================================
+       SUBSCRIBE PAGE
+       ========================================================= */
+    .subscribe-page {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(28, 43, 132, 0.10),
+          transparent 38%
+        ),
+        var(--color-bg);
+      padding:
+        calc(var(--safe-top) + 24px)
+        16px
+        calc(var(--safe-bottom) + 32px);
+    }
+
+    /* =========================================================
+       TOP BAR (رجوع)
+       ========================================================= */
+    .subscribe-topbar {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .subscribe-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      font-size: 18px;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+    }
+
+    .subscribe-back:hover {
+      background: var(--color-surface-soft);
+    }
+
+    /* =========================================================
+       BRAND
+       ========================================================= */
+    .subscribe-brand {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .subscribe-brand-icon {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 24px;
+      background: linear-gradient(
+        145deg,
+        var(--color-green-light),
+        rgba(28, 43, 132, 0.14)
+      );
+      border: 1px solid rgba(28, 43, 132, 0.16);
+      box-shadow:
+        0 10px 30px rgba(28, 43, 132, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      font-size: 34px;
+      margin-bottom: 14px;
+    }
+
+    .subscribe-brand-name {
+      margin: 0 0 6px;
+      font-size: clamp(21px, 4.8vw, 26px);
+      font-weight: var(--fw-black);
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .subscribe-brand-subtitle {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      max-width: 320px;
+    }
+
+    /* =========================================================
+       NOTICE (رسالة الاشتراك الأساسية)
+       ========================================================= */
+    .subscribe-notice {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      background: rgba(255, 207, 51, 0.10);
+      border: 1px solid rgba(255, 207, 51, 0.22);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.75;
+    }
+
+    .subscribe-notice-icon {
+      flex-shrink: 0;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       CARD
+       ========================================================= */
+    .subscribe-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.07),
+        0 3px 12px rgba(0, 0, 0, 0.035);
+      margin-bottom: 20px;
+    }
+
+    .subscribe-card-title {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: var(--fw-black);
+      color: var(--color-text);
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    .subscribe-card-subtitle {
+      margin: 0 0 22px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* =========================================================
+       FORM
+       ========================================================= */
+    .subscribe-form .form-group {
+      margin-bottom: 18px;
+    }
+
+    .subscribe-form .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .subscribe-form .required {
+      color: var(--color-red);
+      margin-right: 3px;
+    }
+
+    .subscribe-form .form-input,
+    .subscribe-form .form-select {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 14px;
+      padding: 0 15px;
+      border: 1.5px solid var(--color-border);
+      background: var(--color-bg);
+      font-family: var(--font-arabic);
+      font-size: 15px;
+      color: var(--color-text);
+      transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+    }
+
+    .subscribe-form .form-input::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+
+    .subscribe-form .form-input:focus,
+    .subscribe-form .form-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      background: var(--color-surface);
+      box-shadow: 0 0 0 4px rgba(28, 43, 132, 0.12);
+    }
+
+    .subscribe-form .form-select:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .subscribe-submit-btn {
+      width: 100%;
+      min-height: 53px;
+      margin-top: 6px;
+      border-radius: 14px;
+      font-family: var(--font-arabic);
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 7px 18px rgba(28, 43, 132, 0.18);
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .subscribe-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(28, 43, 132, 0.22);
+    }
+
+    .subscribe-submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    .subscribe-submit-btn:disabled {
+      opacity: 0.7;
+      transform: none;
+    }
+
+    /* =========================================================
+       GROUPS LOADING / EMPTY
+       ========================================================= */
+    .groups-hint {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .groups-hint.is-error {
+      color: var(--color-red);
+    }
+
+    /* =========================================================
+       SUCCESS STATE
+       ========================================================= */
+    .subscribe-success {
+      display: none;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      padding: 36px 22px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.07),
+        0 3px 12px rgba(0, 0, 0, 0.035);
+    }
+
+    .subscribe-success.is-visible {
+      display: block;
+    }
+
+    .subscribe-success-icon {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-green-light);
+      font-size: 36px;
+    }
+
+    .subscribe-success-title {
+      margin: 0 0 10px;
+      font-size: 21px;
+      font-weight: var(--fw-black);
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .subscribe-success-text {
+      margin: 0 0 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      line-height: 1.8;
+    }
+
+    .subscribe-success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+    @media (max-width: 480px) {
+      .subscribe-page {
+        padding-top: 18px;
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+
+      .subscribe-brand-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        font-size: 30px;
+      }
+
+      .subscribe-brand-name {
+        font-size: 21px;
+      }
+
+      .subscribe-card {
+        padding: 22px 18px;
+        border-radius: 21px;
+      }
+
+      .subscribe-card-title {
+        font-size: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .subscribe-submit-btn,
+      .subscribe-form .form-input,
+      .subscribe-form .form-select {
+        transition: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/editorial-redesign.css" />
+</head>
+
+<body>
+
+  <main class="subscribe-page" id="subscribePage">
+
+    <!-- =======================================================
+         TOP BAR
+         ======================================================= -->
+    <div class="subscribe-topbar">
+      <a
+        href="login.html"
+        class="subscribe-back"
+        aria-label="رجوع"
+      >
+        <span class="icon icon-arrow-back" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <!-- =======================================================
+         BRAND
+         ======================================================= -->
+    <div class="subscribe-brand">
+      <div class="subscribe-brand-icon" aria-hidden="true"><span class="icon icon-pencil" aria-hidden="true"></span></div>
+      <h1 class="subscribe-brand-name">طلب الاشتراك</h1>
+      <p class="subscribe-brand-subtitle">
+        املأ البيانات التالية وسيتواصل معك مستر إسماعيل.
+      </p>
+    </div>
+
+    <!-- =======================================================
+         NOTICE — رسالة الاشتراك الأساسية
+         المرجع: الوثيقة الأصلية — بند 20
+         ======================================================= -->
+    <div class="subscribe-notice" role="note">
+      <span class="subscribe-notice-icon" aria-hidden="true"><span class="icon icon-idea" aria-hidden="true"></span></span>
+      <span>
+        الأكواد يحصل عليها فقط طلاب مستر إسماعيل في الدروس.
+        لو حابب تكون في أحد مجموعات الدروس، اختار المرحلة ومجموعة الدرس.
+      </span>
+    </div>
+
+    <!-- =======================================================
+         FORM CARD
+         ======================================================= -->
+    <section class="subscribe-card" id="subscribeCard">
+
+      <h2 class="subscribe-card-title">بيانات الاشتراك</h2>
+      <p class="subscribe-card-subtitle">
+        من فضلك أدخل البيانات بشكل صحيح.
+      </p>
+
+      <form
+        class="subscribe-form"
+        id="subscribeForm"
+        novalidate
+      >
+
+        <!-- ==============================
+             المرحلة الدراسية
+             المرجع: الوثيقة الأصلية — بند 21
+             ============================== -->
+        <div class="form-group">
+          <label class="form-label" for="stageSelect">
+            المرحلة الدراسية
+            <span class="required" aria-hidden="true">*</span>
+          </label>
+          <select
+            id="stageSelect"
+            name="stage"
+            class="form-select"
+            required
+          >
+            <option value="">اختر المرحلة</option>
+            <option value="grade_4">الصف الرابع الابتدائي</option>
+            <option value="grade_5">الصف الخامس الابتدائي</option>
+            <option value="grade_6">الصف السادس الابتدائي</option>
+            <option value="prep_1">الصف الأول الإعدادي</option>
+            <option value="prep_2">الصف الثاني الإعدادي</option>
+            <option value="prep_3">الصف الثالث الإعدادي</option>
+            <option value="sec_1">الصف الأول الثانوي</option>
+            <option value="sec_2">الصف الثاني الثانوي</option>
+            <option value="sec_3">الصف الثالث الثانوي</option>
+          </select>
+        </div>
+
+        <!-- ==============================
+             مجموعة الدرس
+             المرجع: الوثيقة الأصلية — بند 22
+             ============================== -->
+        <div class="form-group">
+          <label class="form-label" for="groupSelect">
+            مجموعة الدرس
+            <span class="required" aria-hidden="true">*</span>
+          </label>
+          <select
+            id="groupSelect"
+            name="lessonGroupId"
+            class="form-select"
+            required
+            disabled
+          >
+            <option value="">اختر المرحلة أولًا</option>
+          </select>
+          <span class="groups-hint" id="groupsHint">
+            اختر المرحلة لعرض مجموعات الدرس المتاحة.
+          </span>
+        </div>
+
+        <!-- ==============================
+             الاسم الكامل
+             المرجع: الوثيقة الأصلية — بند 23
+             ============================== -->
+        <div class="form-group">
+          <label class="form-label" for="fullNameInput">
+            الاسم الكامل
+            <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="text"
+            id="fullNameInput"
+            name="fullName"
+            class="form-input"
+            placeholder="مثال: أحمد محمد"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <!-- ==============================
+             رقم الهاتف
+             <span class="icon icon-warning" aria-hidden="true"></span> حقول الطلب تُحدَّد في مرحلة الـ Worker
+                (الوثيقة الأصلية — بند 86)
+             نبدأ بالحد الأدنى: الاسم + الهاتف.
+             ============================== -->
+        <div class="form-group">
+          <label class="form-label" for="phoneInput">
+            رقم الهاتف
+            <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="tel"
+            id="phoneInput"
+            name="phone"
+            class="form-input"
+            placeholder="مثال: 01012345678"
+            autocomplete="tel"
+            inputmode="tel"
+            dir="ltr"
+            required
+          />
+        </div>
+
+        <!-- زر الإرسال -->
+        <button
+          type="submit"
+          class="btn btn-primary btn-block subscribe-submit-btn"
+          id="subscribeSubmitBtn"
+        >
+          إرسال طلب
+        </button>
+
+      </form>
+
+    </section>
+
+    <!-- =======================================================
+         SUCCESS STATE
+         يظهر بعد نجاح إنشاء الطلب (Request Created)
+         ======================================================= -->
+    <section
+      class="subscribe-success"
+      id="subscribeSuccess"
+      aria-live="polite"
+    >
+      <div class="subscribe-success-icon" aria-hidden="true"><span class="icon icon-check-circle" aria-hidden="true"></span></div>
+      <h2 class="subscribe-success-title">
+        تم إرسال طلبك بنجاح
+      </h2>
+      <p class="subscribe-success-text">
+        سيتواصل معك مستر إسماعيل في أقرب وقت،
+        وسيصلك الكود الخاص بك بعد الموافقة.
+      </p>
+      <div class="subscribe-success-actions">
+        <a href="login.html" class="btn btn-primary btn-block">
+          العودة لتسجيل الدخول
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JavaScript -->
+  <script type="module" src="js/subscribe.js"></script>
+
+</body>
+</html>
